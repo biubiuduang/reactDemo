@@ -5,7 +5,7 @@ import People from "./People";
 export default class Man extends Component{
 
     render(){
-        //console.log(this.props);
+        console.log(this.props);
         let {eyes,hand,peopleName,children} = this.props;
         return (
             <div className="man">
