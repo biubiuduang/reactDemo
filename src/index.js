@@ -1,4 +1,4 @@
-import React from "react";
+import React,{createRef} from "react";
 import ReactDOM from "react-dom";
 
 import "./main.css";
@@ -208,12 +208,15 @@ import "./main.css";
 
 
 // <!-- 生命周期 -->
+// *****只有类组件才有生命周期, 函数组件没有生命周期********
 // Mounting 装载
 //      constructor
+//          只执行一次
 //      static getDerivedStateFromProps(props, state)
 //          在 render 之前，给你一次改变 state 的机会，不改变就返回null
 //      render()
 //      componentDidMount()
+//          只执行一次
 //          获取真实的dom内容
 //
 // Update 更新
@@ -225,83 +228,295 @@ import "./main.css";
 //          false； 后面生命周期函数不会执行， 视图不会更新
 //      render()
 //      getSnapshotBeforeUpdate(prevProps,prevState)
+//          它执行的时候,新的virtual DOM 结构已经计算出来了
+//          但是这个时候,浏览器 DOM 元素还没有更新
+//
 //      componentDidUpdate()
+//          更新完成的时候调用
+//          获取真正的 DOM 元素
 // unmounting 卸载
 //      componentWillUnmount()
+//          只执行一次
+// 错误处理
+//      componentDidCatch(error , info )
+//          捕获子组件的生命周期抛出的错误(不会捕获父组件抛出的错误)
+//
+
+// class Number extends React.Component{
+//     constructor(props) {
+//         super(props);
+//
+//         this.state = {
+//             number : Math.random(),
+//             name: props.name,
+//             hasError: false
+//         };
+//         console.log('constructor');
+//     }
+//
+//     componentDidCatch(error,info){
+//         this.setState({
+//             hasError:true
+//         })
+//     }
+//
+//     static getDevrivedStateFromProps(props, state){
+//         console.log(props,state);
+//         console.log('getDerivedStateFromProps');
+//         //dom 结构未生成
+//         console.log(document.getElementById("Div"));
+//         return {
+//             name: props.name === state.name ? props.name+'ok' : props.name+'fail'
+//         };
+//     }
+//
+//     //是否执行更新
+//     shouldComponentUpdate(nextProps,nextState){
+//         console.log(this.props,nextProps);
+//         return true;
+//     }
+//     componentDidMount(){
+//         console.log('组件装载完成');
+//         //界面已生成
+//         console.log(document.getElementById("Div"));
+//     }
+//
+//     //更新前获取快照
+//     getSnapshotBeforeUpdate(prevProps,prevState){
+//         console.log(prevProps,prevState);
+//         return null;
+//     }
+//
+//     componentDidUpdate(prevProps,prevState,shot){
+//         console.log(shot); //打印快照的返回值
+//         console.log('组件更新完成');
+//     }
+//
+//     handleButtonClick=()=>{
+//       this.setState({
+//           number: Math.random()
+//       })
+//     };
+//
+//     render() {
+//         console.log('render');
+//         let {number,name,hasError} = this.state;
+//         // throw Error ('父组件错了');
+//         return (
+//             <div id={'Div'}>
+//                 <p>{number} 🍎🍎🍎🍎🍎</p>
+//                 <p>{name}</p>
+//                 <p>------</p>
+//                 {
+//                     hasError?(
+//                         <p>Sun 崩溃了</p>
+//                     ):<Sun num={number} />
+//                 }
+//                 {/*{number > 0.5 &&  <Sun num={number} />}*/}
+//                 <p>------</p>
+//                 <button onClick={this.handleButtonClick}>
+//                     change number
+//                 </button>
+//             </div>
+//         )
+//     }
+// }
+// class Sun extends React.Component{
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             num: props.num,
+//         }
+//     }
+//
+//     static getDerivedStateFromProps(props,state){
+//         return {
+//             num: props.num
+//         };
+//     }
+//
+//     componentDidMount(){
+//         console.log('sun Mount');
+//     }
+//
+//     componentDidUpdate(){
+//         console.log('sun Update');
+//     }
+//
+//     componentWillUnmount(){
+//         console.log('sun Unmount');
+//     }
+//
+//     render() {
+//         if(this.props.num > 0.5){
+//             throw Error ('我废了');
+//         }
+//         return (
+//             <div>
+//                 <p>Sum</p>
+//                 <p>{this.state.num} 🍎🍎🍎🍎🍎🍎</p>
+//             </div>
+//         )
+//     }
+// }
+//
+// ReactDOM.render(
+//     <div>
+//         <Number name={'Make'}/>
+//
+//     </div>,
+//     document.getElementById("root")
+// );
+
+
+//<!-- 获取真实 DOM -->
+// 回调
+//
+// createdRef
+//
+// 字符串(过时)
+
+// class Number extends React.Component{
+//     constructor(props){
+//         super(props);
+//
+//         this.state = {
+//             number: Math.random(),
+//             name: props.name
+//         };
+//
+//         this.numDiv = createRef();
+//     }
+//
+//     handleButtonClick=()=>{
+//         console.log(this.numDiv.current);
+//         this.setState({
+//             number: Math.random()
+//         })
+//     };
+//
+//     render() {
+//         let {number,name} = this.state;
+//         return (
+//             <div id={'numDiv'} ref={this.numDiv}>
+//                 <p>{number} 🍎🍎🍎🍎🍎🍎</p>
+//                 <p>{name}</p>
+//                 <p>-----------</p>
+//                 <Sun name={'Mike'} num={number}/>
+//                 <p>-----------</p>
+//                 <button
+//                     onClick={this.handleButtonClick}
+//                 >change number</button>
+//             </div>
+//         )
+//     }
+// }
+//
+// class Sun extends React.Component{
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             name: props.name,
+//             num: props.num
+//         }
+//     }
+//
+//     static getDerivedStateFromProps(props,state) {
+//         return {
+//             num: props.num
+//         }
+//     }
+//
+//     render() {
+//         return (
+//             <div>
+//                 <p>{this.state.name}</p>
+//                 <p>{this.state.num}</p>
+//             </div>
+//         )
+//     }
+// }
+//
+// ReactDOM.render(
+//     <div>
+//         <Number />
+//     </div>,
+//     document.getElementById("root")
+// );
+
+
+//<!-- 组件受控 -->
+//      组件状态的变化是否是 react 接管的
+//
 
 class Number extends React.Component{
     constructor(props) {
         super(props);
 
         this.state = {
-            number : Math.random(),
-            name: props.name
-        };
-        console.log('constructor');
-    }
-
-    static getDevrivedStateFromProps(props, state){
-        console.log(props,state);
-        console.log('getDerivedStateFromProps');
-        //dom 结构未生成
-        console.log(document.getElementById("Div"));
-        return {
-            name: props.name === state.name ? props.name+'ok' : props.name+'fail'
-        };
-    }
-
-    //是否执行更新
-    shouldComponentUpdate(nextProps,nextState){
-        console.log(this.props,nextProps);
-        return true;
-    }
-    componentDidMount(){
-        console.log('组件装载完成');
-        //界面已生成
-        console.log(document.getElementById("Div"));
+            number: Math.random(),
+            name: props.name,
+            inputVal: '',
+        }
     }
 
     handleButtonClick=()=>{
-      this.setState({
-          number: 777
-      })
+        this.setState({
+            number: Math.random(),
+            name: this.input.value,
+            inputVal: ''
+        })
+    };
+    handleInputChange=(ev)=>{
+        this.setState({
+            // inputVal: this.input.value
+            inputVal: ev.target.value
+        })
     };
 
     render() {
-        console.log('render');
-        let {number,name} = this.state;
+        let {number,name,inputVal} = this.state;
         return (
-            <div id={'Div'}>
-                <p>{number} 🍎🍎🍎🍎🍎</p>
+            <div>
+                <p>{number} </p>
+                <input
+                    onChange={this.handleInputChange}
+                    value={inputVal}
+                    type='text'
+                    ref={el=>this.input=el}/>
+                <p>{inputVal}</p>
                 <p>{name}</p>
-                <p>------</p>
-                <Sun num={number} />
-                <p>------</p>
-                <button onClick={this.handleButtonClick}>
-                    change number
-                </button>
+                <p>--------</p>
+                <Sun num={number}/>
+                <p>--------</p>
+                <button
+                    onClick={this.handleButtonClick}
+                >change number</button>
             </div>
         )
     }
 }
+
 class Sun extends React.Component{
     constructor(props) {
         super(props);
+
         this.state = {
-            num: props.num,
+            num: props.num
         }
     }
 
-    static getDerivedStateFromProps(props,state){
+    static getDerivedStateFromProps(props,state) {
         return {
             num: props.num
-        };
+        }
     }
 
     render() {
+        let {num} = this.state;
         return (
             <div>
-                <p>{this.state.num} 🍎🍎🍎🍎🍎🍎</p>
+                <p>{num}</p>
             </div>
         )
     }
@@ -309,8 +524,7 @@ class Sun extends React.Component{
 
 ReactDOM.render(
     <div>
-        <Number name={'Make'}/>
-
+        <Number name={'Mike'}/>
     </div>,
     document.getElementById("root")
 );
