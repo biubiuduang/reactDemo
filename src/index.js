@@ -1,5 +1,5 @@
-import React,{createRef} from "react";
-import ReactDOM from "react-dom";
+import React, {Fragment, Component, createRef} from 'react';
+import ReactDOM from 'react-dom';
 
 import "./main.css";
 // import People from "./components/People";
@@ -19,6 +19,7 @@ import "./main.css";
 // 2、类组件 有实例， 函数组件没有实例 不能使用this
 
 //函数组件
+
 // function ComponentName(){
 //     return (
 //         <div className="component">
@@ -29,6 +30,7 @@ import "./main.css";
 // }
 
 //类组件
+
 // class Comp extends React.Component {
 //     render(){
 //         return (
@@ -449,82 +451,287 @@ import "./main.css";
 //      组件状态的变化是否是 react 接管的
 //
 
-class Number extends React.Component{
-    constructor(props) {
+// class Number extends React.Component{
+//     constructor(props) {
+//         super(props);
+//
+//         this.state = {
+//             number: Math.random(),
+//             name: props.name,
+//             inputVal: '',
+//         }
+//     }
+//
+//     handleButtonClick=()=>{
+//         this.setState({
+//             number: Math.random(),
+//             name: this.input.value,
+//             inputVal: ''
+//         })
+//     };
+//     handleInputChange=(ev)=>{
+//         this.setState({
+//             // inputVal: this.input.value
+//             inputVal: ev.target.value
+//         })
+//     };
+//
+//     render() {
+//         let {number,name,inputVal} = this.state;
+//         return (
+//             <div>
+//                 <p>{number} </p>
+//                 <input
+//                     onChange={this.handleInputChange}
+//                     value={inputVal}
+//                     type='text'
+//                     ref={el=>this.input=el}/>
+//                 <p>{inputVal}</p>
+//                 <p>{name}</p>
+//                 <p>--------</p>
+//                 <Sun num={number}/>
+//                 <p>--------</p>
+//                 <button
+//                     onClick={this.handleButtonClick}
+//                 >change number</button>
+//             </div>
+//         )
+//     }
+// }
+//
+// class Sun extends React.Component{
+//     constructor(props) {
+//         super(props);
+//
+//         this.state = {
+//             num: props.num
+//         }
+//     }
+//
+//     static getDerivedStateFromProps(props,state) {
+//         return {
+//             num: props.num
+//         }
+//     }
+//
+//     render() {
+//         let {num} = this.state;
+//         return (
+//             <div>
+//                 <p>{num}</p>
+//             </div>
+//         )
+//     }
+// }
+//
+// ReactDOM.render(
+//     <div>
+//         <Number name={'Mike'}/>
+//     </div>,
+//     document.getElementById("root")
+// );
+
+
+//<!-- 基于回调的组件交流 -->
+
+// class Number extends React.Component{
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             number: Math.random(),
+//             name: props.name,
+//             msg: ''
+//         }
+//     }
+//
+//     handleButtonClick=()=>{
+//         this.setState({
+//             number: Math.random()
+//         })
+//     };
+//
+//     handleChangeMsg=()=>{
+//         this.setState({
+//             msg: this.sunInput.value
+//         })
+//     };
+//
+//     render() {
+//         let {number,name,msg} = this.state;
+//         return (
+//             <div>
+//                 <h2>{name}</h2>
+//                 <p>{number}</p>
+//                 <p>----------</p>
+//                 <Receive msg={msg} />
+//                 <p>----------</p>
+//                 <Input getInput={el=>this.sunInput=el}/>
+//                 <Send changeMsg={this.handleChangeMsg} />
+//                 <p>----------</p>
+//                 <button
+//                     onClick={this.handleButtonClick}
+//                 >change number</button>
+//             </div>
+//         )
+//     }
+// }
+//
+// function Send(props) {
+//     return (
+//         <div>
+//             <p>发送消息</p>
+//             <button
+//                 onClick={props.changeMsg}
+//             >发送</button>
+//         </div>
+//     )
+// }
+//
+// function Receive(props) {
+//     return (
+//         <div>
+//             <p>接收消息</p>
+//             <p>{props.msg}</p>
+//         </div>
+//     )
+// }
+//
+// function Input({getInput}){
+//     return (
+//         <input type='text' ref={getInput} />
+//     )
+// }
+//
+// ReactDOM.render(
+//     <Number name={'Mike'}/>,
+//     document.getElementById('root')
+// );
+
+//<!-- todoList -->
+
+import Todo from "./components/todo";
+import Footer from "./components/footer";
+
+class TodoList extends Component{
+    constructor(props){
         super(props);
 
         this.state = {
-            number: Math.random(),
-            name: props.name,
-            inputVal: '',
+            todoList: []
         }
-    }
 
-    handleButtonClick=()=>{
+        this.todoInput = createRef();
+
+    };
+    //添加todo
+    addTodo=(ev)=> {
+        let {value} = this.todoInput.current;
+
+        if (ev.keyCode !== 13 || !value.trim()) return;
+
+        let {todoList} = this.state;
         this.setState({
-            number: Math.random(),
-            name: this.input.value,
-            inputVal: ''
+            todoList:[
+                {
+                    id: Math.random(),
+                    content: value,
+                    hasCompleted: false
+                },
+                ...todoList
+            ]
+        },()=>{
+            this.todoInput.current.value = '';
+        });
+    };
+
+    //删除 todo
+    deleteTodo=(id)=>{
+        let {todoList} = this.state;
+        todoList = todoList.filter(elt=>{
+            return elt.id !== id;
+        });
+
+        this.setState({
+            todoList
         })
     };
-    handleInputChange=(ev)=>{
+
+    toggleTodo=(id)=>{
+        let {todoList} = this.state;
+        todoList = todoList.map(elt=>{
+            if(elt.id == id){
+                elt.hasCompleted = !elt.hasCompleted
+            }
+            return elt;
+        });
+
         this.setState({
-            // inputVal: this.input.value
-            inputVal: ev.target.value
+            todoList
         })
     };
 
-    render() {
-        let {number,name,inputVal} = this.state;
+    toggleAll=(ev)=>{
+        let {todoList} = this.state;
+        todoList = todoList.map(elt=>{
+            elt.hasCompleted = ev.target.checked;
+            return elt;
+        });
+
+        this.setState({
+            todoList
+        })
+    };
+
+    render(){
+        let {todoList} = this.state;
+        let activeTodo = todoList.find(elt=>elt.hasCompleted === false);
+        let todos = todoList.map((elt)=>{
+            return (
+                <Todo
+                    key={elt.id}
+                    id={elt.id}
+                    content={elt.content}
+                    deleteTodo={this.deleteTodo}
+                    hasCompleted={elt.hasCompleted}
+                    toggleTodo={this.toggleTodo}
+                />
+            )
+        });
         return (
             <div>
-                <p>{number} </p>
-                <input
-                    onChange={this.handleInputChange}
-                    value={inputVal}
-                    type='text'
-                    ref={el=>this.input=el}/>
-                <p>{inputVal}</p>
-                <p>{name}</p>
-                <p>--------</p>
-                <Sun num={number}/>
-                <p>--------</p>
-                <button
-                    onClick={this.handleButtonClick}
-                >change number</button>
+                <header className="header">
+                    <h1>todos</h1>
+                    {/* 输入框 */}
+                    <input
+                        type="text"
+                        className="new-todo"
+                        placeholder="type something here"
+                        ref={this.todoInput}
+                        onKeyDown={this.addTodo}
+                    />
+                </header>
+
+                <section className="main">
+                    {/* 全选按钮 */}
+                    <input
+                        type="checkbox"
+                        className="toggle-all"
+                        checked={!activeTodo && todoList.length > 0}
+                        onChange={this.toggleAll}
+                    />
+                    <ul className="todo-list">
+                        {todos}
+                    </ul>
+                </section>
+
             </div>
         )
     }
 }
 
-class Sun extends React.Component{
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            num: props.num
-        }
-    }
-
-    static getDerivedStateFromProps(props,state) {
-        return {
-            num: props.num
-        }
-    }
-
-    render() {
-        let {num} = this.state;
-        return (
-            <div>
-                <p>{num}</p>
-            </div>
-        )
-    }
-}
 
 ReactDOM.render(
-    <div>
-        <Number name={'Mike'}/>
-    </div>,
-    document.getElementById("root")
-);
+    <TodoList/>
+    ,
+    document.getElementById('root')
+)
