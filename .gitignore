@@ -1,5 +1,7 @@
 .DS_Store
 node_modules/
+reactTodoList/node_modules/
+reactBase/node_modules/
 /dist/
 npm-debug.log*
 yarn-debug.log*
