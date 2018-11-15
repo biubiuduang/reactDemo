@@ -617,13 +617,14 @@ class TodoList extends Component{
         super(props);
 
         this.state = {
-            todoList: []
-        }
+            todoList: [],
+            activeType: 'all',
+        };
 
         this.todoInput = createRef();
 
     };
-    //添加todo
+    //添加 todo
     addTodo=(ev)=> {
         let {value} = this.todoInput.current;
 
@@ -638,7 +639,7 @@ class TodoList extends Component{
                     hasCompleted: false
                 },
                 ...todoList
-            ]
+            ],
         },()=>{
             this.todoInput.current.value = '';
         });
@@ -682,10 +683,60 @@ class TodoList extends Component{
         })
     };
 
-    render(){
+    alterTodoContent=(id,content)=>{
         let {todoList} = this.state;
+        content = content.trim();
+        todoList = todoList.map(elt=>{
+            if(elt.id === id){
+                elt.content = content;
+            }
+            return elt;
+        });
+
+        this.setState({
+            todoList
+        })
+    };
+
+    changeActiveType=(name)=>{
+        this.setState({
+            activeType: name
+        });
+    };
+
+    clearCompleted=()=>{
+        let {todoList} = this.state;
+        todoList = todoList.filter((elt)=>{
+            return !elt.hasCompleted;
+        });
+
+        this.setState({
+            todoList
+        })
+    };
+
+    render(){
+        let {todoList,activeType} = this.state;
         let activeTodo = todoList.find(elt=>elt.hasCompleted === false);
-        let todos = todoList.map((elt)=>{
+        let showClearButton = todoList.find(elt=>elt.hasCompleted);
+
+        let leftItem = 0;
+
+        let showTodoList = todoList.filter((elt)=>{
+            if(!elt.hasCompleted) leftItem++;
+            switch (activeType){
+                case 'active':
+                    return !elt.hasCompleted;
+                case 'completed':
+                    return elt.hasCompleted;
+                case 'all':
+                default:
+                    return true;
+
+            }
+        });
+
+        let todos = showTodoList.map((elt)=>{
             return (
                 <Todo
                     key={elt.id}
@@ -694,6 +745,7 @@ class TodoList extends Component{
                     deleteTodo={this.deleteTodo}
                     hasCompleted={elt.hasCompleted}
                     toggleTodo={this.toggleTodo}
+                    alterTodoContent={this.alterTodoContent}
                 />
             )
         });
@@ -710,19 +762,29 @@ class TodoList extends Component{
                         onKeyDown={this.addTodo}
                     />
                 </header>
-
-                <section className="main">
-                    {/* 全选按钮 */}
-                    <input
-                        type="checkbox"
-                        className="toggle-all"
-                        checked={!activeTodo && todoList.length > 0}
-                        onChange={this.toggleAll}
-                    />
-                    <ul className="todo-list">
-                        {todos}
-                    </ul>
-                </section>
+                {todoList.length > 0 && (
+                    <Fragment>
+                        <section className="main">
+                            {/* 全选按钮 */}
+                            <input
+                                type="checkbox"
+                                className="toggle-all"
+                                checked={!activeTodo && todoList.length > 0}
+                                onChange={this.toggleAll}
+                            />
+                            <ul className="todo-list">
+                                {todos}
+                            </ul>
+                        </section>
+                        <Footer
+                            activeType={activeType}
+                            changeActiveType={this.changeActiveType}
+                            clearCompleted={this.clearCompleted}
+                            showButton={showClearButton}
+                            leftItem={leftItem}
+                        />
+                    </Fragment>
+                )}
 
             </div>
         )
