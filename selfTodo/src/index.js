@@ -1,5 +1,6 @@
 import React, {Fragment, Component, createRef} from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter as Router,Route,Link} from 'react-router-dom'
 
 import Todo from './components/todo'
 
@@ -178,9 +179,49 @@ class TodoList extends Component{
   }
 }
 
+function Aac(props){
+    console.log(props);
+    return (
+        <div
+            onClick={ev=> props.history.push('/')}
+        >我的名字叫 Aac</div>
+    )
+}
+
+function Bbc(props){
+    console.log(props);
+    return (
+        <div>我的名字叫 Bbc</div>
+    )
+}
+
 
 ReactDOM.render(
-  <TodoList/>
+   <Router>
+       <Fragment>
+           <ul>
+               <Link to="/" tag={'li'}>app</Link>
+               <Link to={{
+                   pathname:'/aac',
+                   state:{
+                       hk: 90
+                   }
+               }}>aac</Link>
+               <Link to="/bbc">bbc</Link>
+           </ul>
+           <Route path="/" exact render={(props)=>{
+               console.log(props);
+               return (
+                   <div>
+                       <p>当前这个组件是app</p>
+                       <TodoList/>
+                   </div>
+               )
+           }} />
+           <Route path="/aac" component={Aac} />
+           <Route path="/bbc" component={Bbc} />
+       </Fragment>
+   </Router>
   ,
   document.getElementById('root')
-)
+);
