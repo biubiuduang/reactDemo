@@ -732,7 +732,6 @@ class TodoList extends Component{
                 case 'all':
                 default:
                     return true;
-
             }
         });
 
