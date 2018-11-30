@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>函数继承</title>
+</head>
+<body>
+<script>
+    function Animal(name){
+        this.name = name || 'Animal';
+        this.sleep = function(){
+            console.log(this.name + '正在睡觉');
+        };
+    }
+    Animal.prototype.eat = function(food){
+        this.food = food || '食物';
+        console.log(this.name + '正在吃' + this.food);
+    };
+    Animal.prototype.running = function(status){
+        console.log(this.name + '跑的'+status);
+    };
+
+    function Some(thing){
+        this.thing = thing;
+        this.go = function(){
+            console.log('我是另一个父类Some Thing，看到我说明实现了多继承');
+        }
+    }
+
+    //一、原型链继承  将父类的实例作为子类的原型
+    function Cat(breed){
+        this.breed = breed;
+        this.kind = function(){
+            console.log('这只猫的品种是：'+this.breed);
+        }
+    }
+    Cat.prototype = new Some();   //被下面的继承覆盖，无法实现多继承
+    Cat.prototype = new Animal();
+    // Cat.prototype.name = 'Tom';
+    //子类的实例
+    var cat = new Cat();
+    cat.breed = 'black cat';
+    console.log(cat.name);
+    cat.sleep();
+    cat.eat('fish');
+    cat.running('fast');
+    cat.kind();
+    console.log(cat instanceof Animal); //true 实例是父类的实例
+    console.log(cat instanceof Cat); //true 实例是子类的实例
+    // cat.go();     //报错  无法实现多继承
+    //特点
+//          1、非常纯粹的继承关系，实例是子类的实例，也是父类的实例
+//          2、父类新增原型方法/原型属性，子类都能访问到
+//          3、简单，易于实现
+    //缺点
+//          1、可以在Cat构造函数中，为Cat实例增加实例属性。父类如果要新增原型属性和方法，则必须放在new Animal()这样的语句之后执行。
+//          2、无法实现多继承 (后面的继承会覆盖前面的继承)
+//          3、来自原型对象的所有属性被所有实例共享
+//          4、创建子类实例时，无法向父类构造函数传参
+    console.log('-----------------------------');
+    //二、构造继承
+    //核心：使用父类的构造函数来增强子类实例，等于是复制父类的实例、属性给子类（没用到原型）
+    function Dog(){
+        Animal.call(this);
+        Some.call(this);    //可以实现多继承
+        this.name = name || 'Dog';
+    }
+    var dog = new Dog();
+    dog.name = 'Brutto';
+    dog.sleep();
+    dog.go();
+    // dog.eat();    //报错 不能继承原型属性/方法
+    // dog.running();
+    console.log(dog instanceof Animal);  //false 实例不是父类的实例
+    console.log(dog instanceof Dog);    //true 实例是子类的实例
+    //特点：
+//          1、子类实例共享父类属性
+//          2、创建子类实例时，可以想父类传递参数
+//          3、可以实现多继承（call多个父类对象）
+    //缺点：
+//          1、实例并不是父类的实例，只是子类的实例
+//          2、只能继承父类的实例属性和方法，不能继承原型属性/方法
+//          3、无法实现函数的复用，每个子类都有父类实例函数的副本，影响性能。
+    console.log('-----------------------------');
+    //三、实例继承
+    //核心：为父类实例添加新特性，作为子类实例返回
+    function Sheep(){
+        var instance = new Animal();
+        this.jump = function(){
+            console.log('sheep can jump');
+        };
+        return instance;
+    }
+
+    var sheep = new Sheep();
+    sheep.name = 'Susie';
+    sheep.sleep();
+    sheep.eat('grass');
+    sheep.running('fast');
+    console.log(sheep instanceof Animal);  //true 实例是父类实例
+    console.log(sheep instanceof Sheep);   //false 实例不是子类的实例
+    // sheep.jump(); 继承的是父类属性/方法，不是子类的实例
+    //特点：
+//          1、不限制调用方式，不管是new 子类()还是子类(),返回的对象具有相同的效果
+    //缺点：
+//          1、实例是父类的实例，不是子类的实例
+//          2、不支持多继承
+    console.log('-----------------------------');
+    //四、组合继承 原型链继承+构造继承
+    //核心：通过调用父类构造，继承父类的属性并保留传参的优点，然后通过将父类实例作为子类原型，实现函数复用
+    function Tiger(){
+        Animal.call(this);
+        Some.call(this);   //构造函数
+    }
+    Tiger.prototype = new Animal();   //原型链
+
+    var tiger = new Tiger();
+    tiger.name = 'King';
+    tiger.sleep();
+    tiger.eat('meat');
+    tiger.running('fast');
+    tiger.go();
+    console.log(tiger instanceof Animal);   //true 实例是 原型链父类 的实例
+    console.log(tiger instanceof Some);    //实例不是 构造父类 的实例
+    console.log(tiger instanceof Tiger);    //实例是 子类 的实例
+    console.log('-----------------------------');
+    //五、寄生组合继承
+    //核心：通过寄生方式，砍掉父类的实例属性，这样在调用两次父类的构造的时候，就不会初始化两次实例方法/属性，避免组合继承的缺点
+    function Lion(){
+        Animal.call(this);
+        Some.call(this);
+    }
+
+    (function(){
+        //创建一个没有实例的方法的类
+        var Super = new Function();
+        Super.prototype = Animal.prototype;
+        //将实例作为子类的原型
+        Lion.prototype = new Super();
+    })();
+
+    var lion = new Lion();
+    lion.name = 'Haney';
+    lion.sleep();
+    lion.eat();
+    lion.running('fast');
+    lion.go();
+
+    console.log(lion instanceof Animal);   //true
+    console.log(lion instanceof Some);    //false
+    console.log(lion instanceof Lion);     //true
+</script>
+</body>
+</html>

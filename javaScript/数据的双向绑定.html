@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据的双向绑定</title>
+    <style>
+        input[type]{
+            border:2px solid yellow;
+        }
+        input:first-child{
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+<input id="input" class="input" type="text" value="">
+<input type="text" value="">
+<input type="text" value="">
+<p id="text"></p>
+<script type="text/javascript">
+    function Archiver(){
+        var data = null;
+        Object.defineProperty(this,"data",{
+            get: function(){
+                return data;
+            },
+            set: function(val){
+                data = val;
+            }
+        })
+    }
+    window.onload = function(){
+        var arc = new Archiver();
+        var input = document.getElementById("input");
+        var text = document.getElementById("text");
+        input.addEventListener('keyup',function(e){
+            arc.data = e.target.value;
+            text.innerText = arc.data;
+        })
+    }
+</script>
+</body>
+</html>
