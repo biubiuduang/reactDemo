@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>左右固定宽度100px 中间占剩余</title>
+    <style>
+        html,body,div,p{
+            margin:0;
+            padding: 0;
+        }
+        div{
+            height:200px;
+        }
+        .left{
+            float: left;
+            width: 100px;
+            background-color: red;
+        }
+        .right{
+            float: right;
+            width: 100px;
+            background-color: yellow;
+        }
+        .center{
+            margin: 0 100px;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+<div class="left"></div>
+<div class="right"></div>
+<div class="center">
+    <p>123456789</p>
+</div>
+</body>
+</html>

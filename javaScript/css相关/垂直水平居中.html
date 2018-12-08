@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>垂直水平居中</title>
+    <style>
+        html,body,.father,.children{
+            margin:0;
+            padding: 0;
+        }
+        .father{
+            width: 500px;
+            height: 500px;
+            border:1px solid red;
+        }
+        .children{
+            width: 100px;
+            height:100px;
+            background-color: yellow;
+        }
+        /****************** 1  ******************/
+        .father{
+            display: table-cell;
+            vertical-align: middle;
+        }
+        .children{
+            margin: 0 auto;
+        }
+
+
+        /****************** 2  ******************/
+        /*.father{*/
+            /*display: flex;*/
+            /*justify-content: center;*/
+            /*align-items: center;*/
+        /*}*/
+
+        /****************** 3  ******************/
+        /*.father{*/
+            /*position:relative;*/
+        /*}*/
+        /*.children{*/
+            /*position:absolute;*/
+            /*left: 50%;*/
+            /*top: 50%;*/
+            /*transform: translate(-50%,-50%);*/
+        /*}*/
+
+        /****************** 4  ******************/
+        /*.father{*/
+            /*position:relative;*/
+        /*}*/
+        /*.children{*/
+            /*position: absolute;*/
+            /*top:0;*/
+            /*left:0;*/
+            /*bottom:0;*/
+            /*right:0;*/
+            /*margin: auto;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div class="father">
+    <div class="children"></div>
+</div>
+</body>
+</html>

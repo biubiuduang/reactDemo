@@ -29,6 +29,17 @@
             }
         })
     }
+    function Arc(){
+        var data = null;
+        Object.defineProperty(this,'data',{
+            get: function(){
+                return data;
+            },
+            set: function(newData){
+                data = newData;
+            }
+        })
+    }
     window.onload = function(){
         var arc = new Archiver();
         var input = document.getElementById("input");
@@ -36,7 +47,15 @@
         input.addEventListener('keyup',function(e){
             arc.data = e.target.value;
             text.innerText = arc.data;
-        })
+        });
+
+//        var arc = new Arc();
+//        var input = document.getElementById('input');
+//        var text = document.getElementById("text");
+//        input.addEventListener('keyup',function(event){
+//            arc.data = event.target.value;
+//            text.innerText = arc.data;
+//        })
     }
 </script>
 </body>
