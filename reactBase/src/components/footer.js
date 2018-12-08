@@ -9,24 +9,24 @@ export default function(props){
             </span>
             <ul className="filters">
                 <li>
-                    <a
+                    <span
                         onClick={()=>props.changeActiveType('all')}
                         className={props.activeType === 'all' ? "selected" : ''}
-                    >All</a>
+                    >All</span>
 
                 </li>
                 <li>
-                    <a
+                    <span
                         onClick={()=>props.changeActiveType('active')}
                         className={props.activeType === 'active' ? "selected" : ''}
-                    >Active</a>
+                    >Active</span>
 
                 </li>
                 <li>
-                    <a
+                    <span
                         onClick={()=>props.changeActiveType('completed')}
                         className={props.activeType === 'completed' ? "selected" : ''}
-                    >Completed</a>
+                    >Completed</span>
 
                 </li>
             </ul>

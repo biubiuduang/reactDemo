@@ -18,44 +18,47 @@
 <input type="text" value="">
 <p id="text"></p>
 <script type="text/javascript">
-    function Archiver(){
-        var data = null;
-        Object.defineProperty(this,"data",{
-            get: function(){
-                return data;
-            },
-            set: function(val){
-                data = val;
-            }
-        })
-    }
+    // function Archiver(){
+    //     var data = null;
+    //     Object.defineProperty(this,"data",{
+    //         get: function(){
+    //             return data;
+    //         },
+    //         set: function(val){
+    //             data = val;
+    //         }
+    //     })
+    // }
+    // window.onload = function(){
+    //     var arc = new Archiver();
+    //     var input = document.getElementById("input");
+    //     var text = document.getElementById("text");
+    //     input.addEventListener('keyup',function(e){
+    //         arc.data = e.target.value;
+    //         text.innerText = arc.data;
+    //     })
+    // }
+
     function Arc(){
         var data = null;
         Object.defineProperty(this,'data',{
             get: function(){
                 return data;
             },
-            set: function(newData){
-                data = newData;
+            set: function(nData){
+                data = nData;
             }
         })
     }
     window.onload = function(){
-        var arc = new Archiver();
+        var arc = new Arc();
         var input = document.getElementById("input");
         var text = document.getElementById("text");
-        input.addEventListener('keyup',function(e){
+
+        input.addEventListener("keyup",function(e){
             arc.data = e.target.value;
             text.innerText = arc.data;
-        });
-
-//        var arc = new Arc();
-//        var input = document.getElementById('input');
-//        var text = document.getElementById("text");
-//        input.addEventListener('keyup',function(event){
-//            arc.data = event.target.value;
-//            text.innerText = arc.data;
-//        })
+        })
     }
 </script>
 </body>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>字符串扩展</title>
+</head>
+<body>
+<div id="vDiv"></div>
+<ul id="vUl"></ul>
+<script>
+    console.log("\u0061");
+    //1 字符串的遍历接口
+    for(let code of 'hello'){
+        console.log(code);
+    }
+
+    //2 includes()
+    var str = 'hello world';
+    console.log(str.includes("he"));
+    //3 startsWith(); endsWith();
+    console.log(str.startsWith("hello"));
+    console.log(str.endsWith("world"));
+
+    console.log(str.startsWith("llo",2));
+    console.log(str.endsWith("wor",9));
+    console.log(str.includes("hello",6)); // false
+
+    //4 repeat
+    console.log(str.repeat(2)); // hello worldhello world
+    // console.log(str.repeat(-1))  //报错
+    // console.log(str.repeat(Infinity)) //报错
+
+    //5 ES7  padStart() padEnd()
+    console.log('1'.padStart(5,'0'));  //00001
+    console.log('1'.padEnd(5,'abc')); //'1abca'
+
+    window.onload = function(){
+        var oDiv = document.getElementById('vDiv');
+        var oUl = document.getElementById('vUl');
+        var view = `我是<em>${'模版字符串'}</em><br/>换行了, \`1244\``;
+        oDiv.innerHTML = view;
+    }
+
+    var a = 10, b = 5;
+    console.log(`${a} + ${b} = ${a+b}`);
+
+    console.log `123`;
+
+    console.log(String.raw({raw: 'test'},0,1,2));
+</script>
+</body>
+</html>

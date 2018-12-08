@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>animation</title>
+    <style>
+        .move{
+            width: 50px;
+            height:50px;
+            position:absolute;
+            top:0;
+            left:0;
+            background-color: red;
+            /*animation: move 10s alternate infinite;*/
+        }
+        /*@keyframes move{*/
+            /*from {left: 0}*/
+            /*to {left: 500px}*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div class="move"></div>
+
+<script>
+    window.onload = function(){
+        var myMove = document.getElementsByClassName('move')[0];
+        var flag = true;
+        var left = 0;
+        var move = setInterval(function(){
+            if(left === 0) flag = true;
+            if(left === 500) flag = false;
+            if(flag){
+                left ++;
+            }else{
+                left --;
+            }
+            myMove.style.left = left +"px";
+        },10)
+    }
+</script>
+</body>
+</html>

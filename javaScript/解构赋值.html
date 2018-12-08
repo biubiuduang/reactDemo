@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>解构赋值</title>
+</head>
+<body>
+<script>
+    //数组的解构赋值
+    var arr = [1,2,3,'a','b','c'];
+    var [a,b,c,d,e,f] = arr;
+    var [a,...r] = arr;
+    console.log(a,b,c,d,e,f);  //1 2 3 'a' 'b' 'c'
+    console.log(a,r);     //1 [2,3,'a','b','c']
+    //多维数组解构赋值
+    var mArr = ['a',[1,2],4,[3,6]];
+    var [a,[b],c=10,[d,e]] = mArr; //默认值
+    console.log(a,b,c,d,e);     //'a' 1 4 3 6
+
+    //----------------------------
+
+    // object  的解构赋值
+    var {a,b,c} = {a:100,b:200,c:300};
+    console.log(a,b,c);  //100 200 300
+
+    //别名
+    var {name:englishName,age} = {name: 'Tina', age: 4};
+    console.log(englishName,age);
+
+    let foo;
+    ({foo} = {foo: 100});
+    console.log(foo);
+
+    let baz;
+    ({bar:baz} = {bar: 1000});
+    console.log(baz);
+
+    //嵌套结构的解构
+    var obj = {
+        p: [
+            "Hello",
+            {y: "world"}
+        ]
+    };
+
+    var {p:[a,{y}]} = obj;
+    console.log(a,y);
+
+    var obj1 = {
+        t: [
+            "Hello",
+            {d: "world"}
+        ]
+    }
+
+    var {t:[h,{d}]} = obj1;
+    console.log(h,d);
+
+    var node = {
+        loc:{
+            start: {
+                line: 3,
+                column: 5
+            }
+        }
+    };
+
+    var {loc:{start: {line,column}}} = node;
+    console.log(line, column);
+
+    let {g=300} = {};
+    console.log(g);
+
+    //string number boolean 的解构赋值
+
+    var [a,...r]= "Hello";
+    console.log(a,r);
+
+    var {length:len} = "Hello";
+    console.log(len);
+
+    var {toString:s} = 123;
+    console.log(s === Number.prototype.toString);
+
+    var {toString:s} = true;
+    console.log(s === Boolean.prototype.toString);
+
+    //函数参数的解构赋值
+    function add([x,y]){
+        return x + y;
+    }
+    console.log(add([1,2]));
+
+    var nAdd = [[1,2],[3,4]].map(([a,b])=>a+b);
+    console.log(nAdd);  //[3,7]
+
+    function move({x=0,y=0}){
+        return [x,y];
+    }
+
+    console.log(move({x:10,y:10}));
+    console.log(move({x:100,y:100}));
+
+    var newMap = [1,undefined,3].map((x='yes')=>x);
+    console.log(newMap);
+
+    //使用场景：
+    //1。交换值
+    var x= 100,y =200;
+    [x,y] = [y,x];
+    console.log(x,y);
+    //2. 返回一个数组/对象
+    function example(){
+        return [1,2,3];
+    }
+    var [a,...r] = example();
+    console.log(a,r);
+
+    function example1(){
+        return {
+            too: 1,
+            doo: 2,
+            zoo: 3
+        }
+    }
+    var {too,doo,zoo} = example1();
+    console.log(too,doo,zoo);
+    //3 参数定义
+    function fn([a,b,c]){
+        console.log(a+b+c);
+    }
+
+    fn([1,2,3]);
+
+    function fn1({x="hello",y,z}){
+        console.log(x+y+z);
+    }
+    var obj1 = {x:undefined,y:" world",z:" 解构赋值成功了!"}
+    fn1(obj1);
+
+    //4 提取json
+    var jsonData = {
+        id: 1,
+        status: 'OK',
+        data: [111,222,333],
+        user: {
+            id: 1,
+            name: 'Tina',
+            age: 4
+        }
+    };
+    var {id,status,data:num,user:userList} = jsonData;
+    console.log(id,status,num,userList);
+
+    function todo({id,name,text = "我是默认文本"}){
+        console.log(`我的id是：${id}，我的名字是：${name},我想说：${text}`);
+    }
+    todo({id:1,name:'Tina',text:undefined});
+
+    var nMap = new Map();
+    nMap.set('first','hello');
+    nMap.set('second','world');
+
+    console.log(nMap);
+
+    for(let [key,value] of nMap){
+        console.log(`${key}:${value}`);
+    }
+
+    for(let [key] of nMap){
+        console.log(key);
+    }
+
+    for(let [key,value] of nMap){
+        console.log(value);
+    }
+
+</script>
+</body>
+</html>

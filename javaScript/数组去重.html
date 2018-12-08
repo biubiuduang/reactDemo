@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组去重</title>
+</head>
+<body>
+<script>
+    var arr = [1,2,3,4,6,1,4,7,8,9,'a','b','c','a'];
+
+    //ES6 new Set();
+    var sArr = [...new Set(arr)];
+    console.log(sArr);
+
+    //ES5 filter
+    var fArr = arr.filter(function(ele,index,array){
+        return index === array.indexOf(ele);
+    });
+    console.log(fArr);
+
+    //for indexOf();
+    var forArr = [];
+    var len = arr.length;
+    for(var i = 0; i < len; i++){
+        console.log();
+        if(forArr.indexOf(arr[i]) === -1){
+            forArr.push(arr[i]);
+        }
+    }
+    console.log(forArr);
+
+</script>
+</body>
+</html>

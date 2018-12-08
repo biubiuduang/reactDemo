@@ -660,7 +660,7 @@ class TodoList extends Component{
     toggleTodo=(id)=>{
         let {todoList} = this.state;
         todoList = todoList.map(elt=>{
-            if(elt.id == id){
+            if(elt.id === id){
                 elt.hasCompleted = !elt.hasCompleted
             }
             return elt;

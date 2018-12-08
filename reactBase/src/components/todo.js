@@ -1,4 +1,4 @@
-import React,{Fragment,Component,createRef} from 'react';
+import React,{Component,createRef} from 'react';
 
 export default class Todo extends Component{
     constructor(props) {
@@ -57,8 +57,7 @@ export default class Todo extends Component{
             deleteTodo,
             id,
             hasCompleted,
-            toggleTodo,
-            alterTodoContent
+            toggleTodo
         } = this.props;
         let {inEdit} = this.state;
 
