@@ -2,8 +2,8 @@ import React, {Fragment, Component, createRef} from 'react';
 import ReactDOM from 'react-dom';
 
 import "./main.css";
-// import People from "./components/People";
-// import Man from "./components/Man";
+import People from "./components/People";
+import Man from "./components/Man";
 
 //<!-- jsx 函数组件/类组件 props children defaultProps prop-types -->
 
@@ -62,21 +62,21 @@ import "./main.css";
 // PT.node      可以渲染的东西
 // PT.element    react的元素
 
-// ReactDOM.render(
-//     <div>
-//         <People name={"88888"} renderProp={()=>Math.random()}></People>
-//         <hr/>
-//         <h1>认识组件</h1>
-//         <h2>认识props</h2>
-//         <People name="Joe" age={80}>
-//             <p>121212121</p>
-//         </People>
-//         <Man eyes={1000} hands={300} peopleName={"Flowke"}>
-//              <p>我是man</p>
-//         </Man>
-//     </div>,
-//     document.getElementById("root")
-// );
+ReactDOM.render(
+    <div>
+        <People name={"88888"} renderProp={(data)=>Math.random()*data}></People>
+        <hr/>
+        <h1>认识组件</h1>
+        <h2>认识props</h2>
+        <People name="Joe" age={80}>
+            <p>121212121</p>
+        </People>
+        <Man eyes={1000} hands={300} peopleName={"Flowke"}>
+             <p>我是man</p>
+        </Man>
+    </div>,
+    document.getElementById("root")
+);
 
 
 // <!-- state -->
@@ -609,190 +609,190 @@ import "./main.css";
 
 //<!-- todoList -->
 
-import Todo from "./components/todo";
-import Footer from "./components/footer";
-
-class TodoList extends Component{
-    constructor(props){
-        super(props);
-
-        this.state = {
-            todoList: [],
-            activeType: 'all',
-        };
-
-        this.todoInput = createRef();
-
-    };
-    //添加 todo
-    addTodo=(ev)=> {
-        let {value} = this.todoInput.current;
-
-        if (ev.keyCode !== 13 || !value.trim()) return;
-
-        let {todoList} = this.state;
-        this.setState({
-            todoList:[
-                {
-                    id: Math.random(),
-                    content: value,
-                    hasCompleted: false
-                },
-                ...todoList
-            ],
-        },()=>{
-            this.todoInput.current.value = '';
-        });
-    };
-
-    //删除 todo
-    deleteTodo=(id)=>{
-        let {todoList} = this.state;
-        todoList = todoList.filter(elt=>{
-            return elt.id !== id;
-        });
-
-        this.setState({
-            todoList
-        })
-    };
-
-    toggleTodo=(id)=>{
-        let {todoList} = this.state;
-        todoList = todoList.map(elt=>{
-            if(elt.id === id){
-                elt.hasCompleted = !elt.hasCompleted
-            }
-            return elt;
-        });
-
-        this.setState({
-            todoList
-        })
-    };
-
-    toggleAll=(ev)=>{
-        let {todoList} = this.state;
-        todoList = todoList.map(elt=>{
-            elt.hasCompleted = ev.target.checked;
-            return elt;
-        });
-
-        this.setState({
-            todoList
-        })
-    };
-
-    alterTodoContent=(id,content)=>{
-        let {todoList} = this.state;
-        content = content.trim();
-        todoList = todoList.map(elt=>{
-            if(elt.id === id){
-                elt.content = content;
-            }
-            return elt;
-        });
-
-        this.setState({
-            todoList
-        })
-    };
-
-    changeActiveType=(name)=>{
-        this.setState({
-            activeType: name
-        });
-    };
-
-    clearCompleted=()=>{
-        let {todoList} = this.state;
-        todoList = todoList.filter((elt)=>{
-            return !elt.hasCompleted;
-        });
-
-        this.setState({
-            todoList
-        })
-    };
-
-    render(){
-        let {todoList,activeType} = this.state;
-        let activeTodo = todoList.find(elt=>elt.hasCompleted === false);
-        let showClearButton = todoList.find(elt=>elt.hasCompleted);
-
-        let leftItem = 0;
-
-        let showTodoList = todoList.filter((elt)=>{
-            if(!elt.hasCompleted) leftItem++;
-            switch (activeType){
-                case 'active':
-                    return !elt.hasCompleted;
-                case 'completed':
-                    return elt.hasCompleted;
-                case 'all':
-                default:
-                    return true;
-            }
-        });
-
-        let todos = showTodoList.map((elt)=>{
-            return (
-                <Todo
-                    key={elt.id}
-                    id={elt.id}
-                    content={elt.content}
-                    deleteTodo={this.deleteTodo}
-                    hasCompleted={elt.hasCompleted}
-                    toggleTodo={this.toggleTodo}
-                    alterTodoContent={this.alterTodoContent}
-                />
-            )
-        });
-        return (
-            <div>
-                <header className="header">
-                    <h1>todos</h1>
-                    {/* 输入框 */}
-                    <input
-                        type="text"
-                        className="new-todo"
-                        placeholder="type something here"
-                        ref={this.todoInput}
-                        onKeyDown={this.addTodo}
-                    />
-                </header>
-                {todoList.length > 0 && (
-                    <Fragment>
-                        <section className="main">
-                            {/* 全选按钮 */}
-                            <input
-                                type="checkbox"
-                                className="toggle-all"
-                                checked={!activeTodo && todoList.length > 0}
-                                onChange={this.toggleAll}
-                            />
-                            <ul className="todo-list">
-                                {todos}
-                            </ul>
-                        </section>
-                        <Footer
-                            activeType={activeType}
-                            changeActiveType={this.changeActiveType}
-                            clearCompleted={this.clearCompleted}
-                            showButton={showClearButton}
-                            leftItem={leftItem}
-                        />
-                    </Fragment>
-                )}
-
-            </div>
-        )
-    }
-}
-
-
-ReactDOM.render(
-    <TodoList/>
-    ,
-    document.getElementById('root')
-)
+// import Todo from "./components/todo";
+// import Footer from "./components/footer";
+//
+// class TodoList extends Component{
+//     constructor(props){
+//         super(props);
+//
+//         this.state = {
+//             todoList: [],
+//             activeType: 'all',
+//         };
+//
+//         this.todoInput = createRef();
+//
+//     };
+//     //添加 todo
+//     addTodo=(ev)=> {
+//         let {value} = this.todoInput.current;
+//
+//         if (ev.keyCode !== 13 || !value.trim()) return;
+//
+//         let {todoList} = this.state;
+//         this.setState({
+//             todoList:[
+//                 {
+//                     id: Math.random(),
+//                     content: value,
+//                     hasCompleted: false
+//                 },
+//                 ...todoList
+//             ],
+//         },()=>{
+//             this.todoInput.current.value = '';
+//         });
+//     };
+//
+//     //删除 todo
+//     deleteTodo=(id)=>{
+//         let {todoList} = this.state;
+//         todoList = todoList.filter(elt=>{
+//             return elt.id !== id;
+//         });
+//
+//         this.setState({
+//             todoList
+//         })
+//     };
+//
+//     toggleTodo=(id)=>{
+//         let {todoList} = this.state;
+//         todoList = todoList.map(elt=>{
+//             if(elt.id === id){
+//                 elt.hasCompleted = !elt.hasCompleted
+//             }
+//             return elt;
+//         });
+//
+//         this.setState({
+//             todoList
+//         })
+//     };
+//
+//     toggleAll=(ev)=>{
+//         let {todoList} = this.state;
+//         todoList = todoList.map(elt=>{
+//             elt.hasCompleted = ev.target.checked;
+//             return elt;
+//         });
+//
+//         this.setState({
+//             todoList
+//         })
+//     };
+//
+//     alterTodoContent=(id,content)=>{
+//         let {todoList} = this.state;
+//         content = content.trim();
+//         todoList = todoList.map(elt=>{
+//             if(elt.id === id){
+//                 elt.content = content;
+//             }
+//             return elt;
+//         });
+//
+//         this.setState({
+//             todoList
+//         })
+//     };
+//
+//     changeActiveType=(name)=>{
+//         this.setState({
+//             activeType: name
+//         });
+//     };
+//
+//     clearCompleted=()=>{
+//         let {todoList} = this.state;
+//         todoList = todoList.filter((elt)=>{
+//             return !elt.hasCompleted;
+//         });
+//
+//         this.setState({
+//             todoList
+//         })
+//     };
+//
+//     render(){
+//         let {todoList,activeType} = this.state;
+//         let activeTodo = todoList.find(elt=>elt.hasCompleted === false);
+//         let showClearButton = todoList.find(elt=>elt.hasCompleted);
+//
+//         let leftItem = 0;
+//
+//         let showTodoList = todoList.filter((elt)=>{
+//             if(!elt.hasCompleted) leftItem++;
+//             switch (activeType){
+//                 case 'active':
+//                     return !elt.hasCompleted;
+//                 case 'completed':
+//                     return elt.hasCompleted;
+//                 case 'all':
+//                 default:
+//                     return true;
+//             }
+//         });
+//
+//         let todos = showTodoList.map((elt)=>{
+//             return (
+//                 <Todo
+//                     key={elt.id}
+//                     id={elt.id}
+//                     content={elt.content}
+//                     deleteTodo={this.deleteTodo}
+//                     hasCompleted={elt.hasCompleted}
+//                     toggleTodo={this.toggleTodo}
+//                     alterTodoContent={this.alterTodoContent}
+//                 />
+//             )
+//         });
+//         return (
+//             <div>
+//                 <header className="header">
+//                     <h1>todos</h1>
+//                     {/* 输入框 */}
+//                     <input
+//                         type="text"
+//                         className="new-todo"
+//                         placeholder="type something here"
+//                         ref={this.todoInput}
+//                         onKeyDown={this.addTodo}
+//                     />
+//                 </header>
+//                 {todoList.length > 0 && (
+//                     <Fragment>
+//                         <section className="main">
+//                             {/* 全选按钮 */}
+//                             <input
+//                                 type="checkbox"
+//                                 className="toggle-all"
+//                                 checked={!activeTodo && todoList.length > 0}
+//                                 onChange={this.toggleAll}
+//                             />
+//                             <ul className="todo-list">
+//                                 {todos}
+//                             </ul>
+//                         </section>
+//                         <Footer
+//                             activeType={activeType}
+//                             changeActiveType={this.changeActiveType}
+//                             clearCompleted={this.clearCompleted}
+//                             showButton={showClearButton}
+//                             leftItem={leftItem}
+//                         />
+//                     </Fragment>
+//                 )}
+//
+//             </div>
+//         )
+//     }
+// }
+//
+//
+// ReactDOM.render(
+//     <TodoList/>
+//     ,
+//     document.getElementById('root')
+// )

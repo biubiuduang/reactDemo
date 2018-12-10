@@ -1,12 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { createStore } from 'redux'
+import $ from 'jquery'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+function counter(state={value:0}, action){
+    let {type, value} = action;
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+    switch (type){
+        case 'INCREMENT':
+            return Object.assign({},state,{value: state.value + value});
+        default:
+            return state;
+    }
+}
+
+let store = createStore(counter);
+
+$(document).click(ev=>{
+    store.dispatch( { type: 'INCREMENT',value: 6} );
+});
+
+let curt = store.getState();
+
+store.subscribe(()=>{
+    let pre = curt;
+
+    curt = store.getState();
+    console.log(pre,curt,pre === curt);
+});

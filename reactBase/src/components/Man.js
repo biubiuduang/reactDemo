@@ -20,7 +20,3 @@ export default class Man extends Component{
 }
 
 //export default Man;
-
-Man.defaultProp = {
-
-};
