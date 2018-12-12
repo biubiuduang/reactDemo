@@ -57,17 +57,16 @@
         var input1 = document.getElementById("input1");
         var text1 = document.getElementById("text1");
 
-        alert(arc['data']);
+        function event(input,text){
+            input.addEventListener("keyup",function(e){
+                arc.data = e.target.value;
+                text.innerText = arc.data;
+            });
+        }
 
-        input.addEventListener("keyup",function(e){
-            arc.data = e.target.value;
-            text.innerText = arc.data;
-        });
+        event(input,text);
+        event(input1,text1);
 
-        input1.addEventListener("keyup",function(e){
-            arc.data = e.target.value;
-            text1.innerText = arc.data;
-        })
     }
 
     // var obj = {};
