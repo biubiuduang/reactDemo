@@ -1,0 +1,58 @@
+@import "parameter";
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+input[type=text]{
+  outline: none;
+}
+body{
+  font-family: "Microsoft YaHei", "微软雅黑", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;;
+  font-size: 14px;
+}
+
+a:hover{
+  text-decoration: none;
+}
+
+#root{
+  background:linear-gradient(to bottom, $sub-color 10%, $thin-sub-color 90%);
+  background: -webkit-gradient(to bottom, $sub-color 10%, $thin-sub-color 90%);
+}
+
+.col-ss-1,.col-ss-2,.col-ss-3,.col-ss-4,.col-ss-5,.col-ss-6,.col-ss-7,.col-ss-8,.col-ss-9,.col-ss-10,.col-ss-11,.col-ss-12,.col-sx-1,.col-sx-2,.col-sx-3,.col-sx-4,.col-sx-5,.col-sx-6,.col-sx-7,.col-sx-8,.col-sx-9,.col-sx-10,.col-sx-11,.col-sx-12{
+  float:left;
+  position:relative;min-height:1px;padding-right:15px;padding-left:15px
+}
+@media (min-width: 640px) and (max-width: 768px) {
+  .col-sx-12{width:100%} .col-sx-11{width:91.66666667%} .col-sx-10{width:83.33333333%} .col-sx-9{width:75%} .col-sx-8{width:66.66666667%} .col-sx-7{width:58.33333333%} .col-sx-6{width:50%}.col-sx-5{width:41.66666667%} .col-sx-4{width:33.33333333%} .col-sx-3{width:25%} .col-sx-2{width:16.66666667%} .col-sx-1{width:8.33333333%}
+}
+@media (min-width: 10px) and (max-width: 639px) {
+  .col-ss-12{width:100%} .col-ss-11{width:91.66666667%} .col-ss-10{width:83.33333333%} .col-ss-9{width:75%} .col-ss-8{width:66.66666667%} .col-ss-7{width:58.33333333%} .col-ss-6{width:50%} .col-ss-5{width:41.66666667%} .col-ss-4{width:33.33333333%} .col-ss-3{width:25%} .col-ss-2{width:16.66666667%} .col-ss-1{width:8.33333333%}
+}

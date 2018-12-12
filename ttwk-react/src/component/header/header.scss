@@ -1,0 +1,89 @@
+@import '../../static/css/parameter';
+
+.download-app{
+  width: 100%;
+  overflow: hidden;
+  background-color: #ffffff;
+  a{
+    line-height: 2.112rem;
+    font-size: .76rem;
+    float: left;
+    margin-left: .288rem;
+    color: $sub-color;
+  }
+  .download-logo{
+    float: right;
+    width: 1.536rem;
+    height: 1.536rem;
+    border-radius: .25rem;
+    margin: .288rem;
+    background: url($downloadLogo) center no-repeat;
+    background-size: contain;
+  }
+}
+.header{
+  width: 100%;
+  overflow: hidden;
+  padding: 20px;
+  a{
+    font-size: 16px;
+    line-height: 32px;
+    float: right;
+    color:#ffffff;
+    margin-left:20px;
+    &.logo{
+      float: left;
+      width: 181px;
+      height: 32px;
+      background: url($logo) center no-repeat;
+      background-size: contain;
+      margin-left:0;
+    }
+  }
+}
+
+/* 如果设备像素大于等于2，则用2倍图 */
+@media screen and (-webkit-min-device-pixel-ratio: 2),
+screen and (min--moz-device-pixel-ratio: 2) {
+  .download-app{
+    .download-logo{
+      background: url($downloadLogo2x) center no-repeat;
+      background-size: contain;
+    }
+  }
+  .header{
+    a{
+      &.logo{
+        background: url($logo2x) center no-repeat;
+        background-size: contain;
+      }
+    }
+  }
+  .list .list-content .left.video-info .user-info .author,.main-video .video-user-info .detailed-info .info-item.info-item-user .user-avatar,.user-center .user-info .avatar {
+    background: url($avatar2x) center no-repeat;
+    background-size: contain;
+  }
+}
+/* 如果设备像素大于等于3，则用3倍图 */
+@media screen and (-webkit-min-device-pixel-ratio: 3),
+screen and (min--moz-device-pixel-ratio: 3) {
+  .download-app{
+    .download-logo{
+      background: url($downloadLogo3x) center no-repeat;
+      background-size: contain;
+    }
+  }
+  .header{
+    a{
+      &.logo{
+        background: url($logo3x) center no-repeat;
+        background-size: contain;
+      }
+    }
+  }
+  .list .list-content .left.video-info .user-info .author,.main-video .video-user-info .detailed-info .info-item.info-item-user .user-avatar,.user-center .user-info .avatar {
+    background: url($avatar3x) center no-repeat;
+    background-size: contain;
+
+  }
+}

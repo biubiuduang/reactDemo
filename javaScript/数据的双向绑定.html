@@ -14,9 +14,9 @@
 </head>
 <body>
 <input id="input" class="input" type="text" value="">
-<input type="text" value="">
-<input type="text" value="">
+<input id="input1" class="input" type="text" value="">
 <p id="text"></p>
+<p id="text1"></p>
 <script type="text/javascript">
     // function Archiver(){
     //     var data = null;
@@ -54,12 +54,41 @@
         var arc = new Arc();
         var input = document.getElementById("input");
         var text = document.getElementById("text");
+        var input1 = document.getElementById("input1");
+        var text1 = document.getElementById("text1");
+
+        alert(arc['data']);
 
         input.addEventListener("keyup",function(e){
             arc.data = e.target.value;
             text.innerText = arc.data;
+        });
+
+        input1.addEventListener("keyup",function(e){
+            arc.data = e.target.value;
+            text1.innerText = arc.data;
         })
     }
+
+    // var obj = {};
+    // var data = null;
+    //
+    //     var input = document.getElementById("input");
+    //     var text = document.getElementById("text");
+    // Object.defineProperty(obj,data,{
+    //     get: function(){
+    //         return data;
+    //     },
+    //     set: function(nData){
+    //         data = nData;
+    //     }
+    // });
+
+    // input.addEventListener('keyup',function(e){
+    //     console.log(e.target.value);
+    //     data = e.target.value;
+    //     text.innerText = data;
+    // })
 </script>
 </body>
 </html>
