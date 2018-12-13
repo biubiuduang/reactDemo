@@ -4,7 +4,6 @@ let baseParams = {
 
 let baseJs = {
     init: function(){
-        console.log(baseParams.ww);
         this.resetSize();
     },
     resetSize: function () {
@@ -39,6 +38,38 @@ let baseJs = {
             }
         }
         return ""
+    },
+    timeFormat: function(time,format){
+        let date = new Date(time);
+        if(format !== 'length'){
+            var y = date.getFullYear().toString();
+            var m = (date.getMonth()+1).toString();
+            m = m.length < 2 ? `0${m}` : m;
+            var d = date.getDate().toString();
+            d = d.length < 2 ? `0${d}` : d;
+            var h = date.getHours().toString();
+            h = h.length < 2 ? `0${h}` : h;
+        }
+        let minute = date.getMinutes().toString();
+        minute = minute.length < 2 ? `0${minute}` : minute;
+        let second = date.getSeconds().toString();
+        second = second.length < 2 ? `0${second}` : second;
+
+        if(format === 'date'){
+            return `${y}-${m}-${d}`;
+        }
+
+        if(format === 'month'){
+            return `${m}月${d}日`;
+        }
+
+        if(format === 'time'){
+            return `${y}-${m}-${d} ${h}:${minute}:${second}`;
+        }
+
+        if(format === 'length'){
+            return `${minute}分${second}秒`
+        }
     }
 };
 

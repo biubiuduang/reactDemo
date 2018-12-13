@@ -1,0 +1,108 @@
+@import "../../static/css/parameter";
+
+.video-item{
+  padding: 0 5px;
+  margin-bottom: 10px;
+  .item-content{
+    border-radius: 5px;
+    background-color: #ffffff;
+    overflow: hidden;
+    padding: 5px;
+    .poster{
+      float:right;
+      width: 30%;
+      height: 188px;
+      overflow: hidden;
+      margin: 3px;
+      background-color: red;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border:1px solid #e0e0e0;
+      text-align: center;
+      img{
+        height: 100%;
+      }
+      span{
+        position: relative;
+        padding: 2px 5px;
+        bottom: 30px;
+        z-index: 2;
+        background-color: #ffffff;
+        margin: 0 auto;
+        color:#999999;
+        text-align: center;
+        font-size: 12px;
+        border-radius: 4px;
+      }
+    }
+    .video-info{
+      width: 100%;
+      .user-info{
+        overflow: hidden;
+        .author{
+          margin: 3px 0 0 3px;
+          float: left;
+          width: 48px;
+          height: 48px;
+          border-radius:24px;
+          overflow: hidden;
+          img{
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .author-name{
+          line-height: 48px;
+          text-indent: 5px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+      .video-title{
+        font-size: 18px;
+        line-height: 24px;
+        height: 48px;
+        margin-top: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        color:$thin-sub-color;
+      }
+      .video-time{
+        color: #adadad;
+        font-size: 14px;
+        margin-top: 10px;
+        span{
+          margin-right:20px;
+        }
+      }
+      ul{
+        overflow: hidden;
+        margin-top: 20px;
+        li{
+          float: left;
+          background-size: 42px 16px;
+          margin-right: 10px;
+          position: relative;
+          padding: 2px 12px 2px 5px;
+          border-radius: 3px;
+          font-size: 12px;
+          line-height: 12px;
+          color: #fff;
+          background: url("../../static/img/Tag@2x.png") 100% 100% no-repeat #bababa;
+          background-size: 42px 16px;
+          &.tags-more{
+            padding: 0;
+            width: 36px;
+            height: 16px;
+            background: url("../../static/img/more-tags.png") 100% 100% no-repeat;
+            background-size: 36px 16px;
+          }
+        }
+      }
+    }
+  }
+}

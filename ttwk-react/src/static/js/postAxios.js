@@ -33,7 +33,7 @@ let postAxios = function(prams){
     ).catch(reject=>{
         typeof error === "function" ? error(reject) : console.log(reject)
     }).finally(()=>{
-        console.log("ajax请求成功");
+
     })
 };
 

@@ -26,7 +26,7 @@ footer, header, hgroup, menu, nav, section {
 body {
   line-height: 1;
 }
-ol, ul {
+ol, ul ,li{
   list-style: none;
 }
 input[type=text]{
@@ -55,4 +55,28 @@ a:hover{
 }
 @media (min-width: 10px) and (max-width: 639px) {
   .col-ss-12{width:100%} .col-ss-11{width:91.66666667%} .col-ss-10{width:83.33333333%} .col-ss-9{width:75%} .col-ss-8{width:66.66666667%} .col-ss-7{width:58.33333333%} .col-ss-6{width:50%} .col-ss-5{width:41.66666667%} .col-ss-4{width:33.33333333%} .col-ss-3{width:25%} .col-ss-2{width:16.66666667%} .col-ss-1{width:8.33333333%}
+}
+
+.content-body{
+  width: 100%;
+  margin: 0 auto;
+}
+.group-body{
+  margin: 0 5px;
+}
+.group{
+  overflow: hidden;
+  .group-title{
+    line-height: 44px;
+    font-size: 17px;
+    font-weight: 100;
+    color:#ffffff;
+    text-indent:5px;
+  }
+}
+
+@media (min-width: 1200px){
+  .content-body{
+    width: 1200px;
+  }
 }
