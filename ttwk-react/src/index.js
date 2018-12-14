@@ -15,13 +15,11 @@ import './static/js/common'
 
 import Home from './view/home/home'
 import List from './view/list/list'
-import Test from './view/test'
 
 ReactDOM.render(
     <Router>
         <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/test" component={Test} />
             <Route exact path="/list" component={List} />
             <Route component={Home} />
         </Switch>
