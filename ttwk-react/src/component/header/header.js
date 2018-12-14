@@ -11,7 +11,7 @@ export default function heander(props){
                 <div className="download-logo"></div>
             </div>
             <div className="header">
-                <a href="http://www.tiantianweike.com" target="_self" className="logo"></a>
+                <Link to="/" className="logo"/>
                 <a href="javascript:void(0);">个人中心</a>
                 <Link to="/download" className="d-md-inline d-none">下载APP</Link>
             </div>

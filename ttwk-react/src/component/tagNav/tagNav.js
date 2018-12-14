@@ -1,40 +1,65 @@
 import React,{Component} from 'react'
-import {NavLink} from 'react-router-dom'
 
 import "../../component/tagNav/tagNav.scss"
 import postAxios from "../../static/js/postAxios";
 
 export default class tagNav extends Component{
-    constructor(props){
-        super(props);
+    constructor(props,context){
+        super(props,context);
 
         this.state={
-            tags: [],
-            tagsActive: [null,null]
+            tags: []
         }
     }
 
+
+
     handleTagsClick=(type,id)=>{
-        console.log(type,id);
 
-        let {tagsActive} = this.state;
 
-        tagsActive = tagsActive.map((item,index)=>{
-            if(index === type){
-                return id;
-            }
-            if(item === null){
-                return '全部'
-            }
-        });
 
-        this.setState({
-            tagsActive
-        })
+        if(this.context.router.history.location.pathname !== '/list'){
+            this.context.router.history.push({pathname: '/list', state: {type,id}});
+        }
+
 
     };
 
-    componentDidMount(){
+    handleInit=()=>{
+
+        let {gradeActive,subjectActive} = this.state;
+        if(this.context.router.history.location.pathname !== '/list'){
+            gradeActive = undefined;
+            subjectActive = undefined;
+            this.setState({
+                gradeActive,
+                subjectActive
+            })
+        }else{
+            let {type,id} = this.context.router.history.location.state;
+            if(type === 'grade'){
+                gradeActive = id;
+            }
+            if(type === 'subject'){
+                subjectActive = id;
+            }
+
+            if(!gradeActive){
+                gradeActive = '全部'
+            }
+
+            if(!subjectActive){
+                subjectActive = '全部'
+            }
+
+            this.setState({
+                gradeActive,
+                subjectActive
+            })
+        }
+    };
+
+    componentWillMount(){
         let that = this;
         postAxios({
             method: "post",
@@ -51,20 +76,31 @@ export default class tagNav extends Component{
 
     render() {
 
-        let {tags,tagsActive} = this.state;
+        let {handleNavClick,gradeActive,subjectActive} = this.props;
+        let {tags} = this.state;
 
         let gradeTags = tags.filter(item => item.type === "grade");
         let subjectTags = tags.filter(item => item.type === "subject");
 
+        gradeTags.unshift({
+            tagId: '全部',
+            type: 'grade'
+        });
+
+        subjectTags.unshift({
+            tagId: '全部',
+            type: 'subject'
+        });
+
         let grade = gradeTags.map(item => {
            return (
-               <li onClick={()=>this.handleTagsClick(0,item.tagId)} key={item.tagId} className={tagsActive[0] === item.tagId ? 'active' : ''}>{item.tagId}</li>
+               <li onClick={()=>handleNavClick('grade',item.tagId)} key={item.tagId} className={gradeActive === item.tagId ? 'active' : ''}>{item.tagId}</li>
            )
         });
 
         let subject = subjectTags.map(item => {
            return (
-               <li onClick={()=>this.handleTagsClick(1,item.tagId)} key={item.tagId}>{item.tagId}</li>
+               <li onClick={()=>handleNavClick('subject',item.tagId)} key={item.tagId} className={subjectActive === item.tagId ? 'active' : ''}>{item.tagId}</li>
            )
         });
 
@@ -73,14 +109,12 @@ export default class tagNav extends Component{
                 <div className="nav-container nav-container-grade">
                     <p className="nav-label">年级：</p>
                     <ul className="tabs-list">
-                        <li key='gradeAll' className={tagsActive[0] === '全部' ? 'active' : ''}>全部</li>
                         {grade}
                     </ul>
                 </div>
                 <div className="nav-container nav-container-subject">
                     <p className="nav-label">学科：</p>
                     <ul className="tabs-list">
-                        <li key='subjectAll' className={tagsActive[1] === '全部' ? 'active' : ''}>全部</li>
                         {subject}
                     </ul>
                 </div>

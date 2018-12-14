@@ -25,6 +25,8 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
   line-height: 1;
+  font-family: "Microsoft YaHei", "微软雅黑", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;;
+  font-size: 14px;
 }
 ol, ul ,li{
   list-style: none;
@@ -32,9 +34,9 @@ ol, ul ,li{
 input[type=text]{
   outline: none;
 }
-body{
-  font-family: "Microsoft YaHei", "微软雅黑", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;;
-  font-size: 14px;
+html,body{
+  width: 100%;
+  height: 100%;
 }
 
 a:hover{
@@ -42,6 +44,7 @@ a:hover{
 }
 
 #root{
+  min-height: 100%;
   background:linear-gradient(to bottom, $sub-color 10%, $thin-sub-color 90%);
   background: -webkit-gradient(to bottom, $sub-color 10%, $thin-sub-color 90%);
 }
@@ -73,6 +76,11 @@ a:hover{
     color:#ffffff;
     text-indent:5px;
   }
+}
+
+.group-list-body{
+  overflow: hidden;
+  margin-top: 20px;
 }
 
 @media (min-width: 1200px){
