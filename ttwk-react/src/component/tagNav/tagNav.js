@@ -12,42 +12,9 @@ export default class tagNav extends Component{
         }
     }
 
-    handleInit=()=>{
-
-        let {gradeActive,subjectActive} = this.state;
-        if(this.context.router.history.location.pathname !== '/list'){
-            gradeActive = undefined;
-            subjectActive = undefined;
-            this.setState({
-                gradeActive,
-                subjectActive
-            })
-        }else{
-            let {type,id} = this.context.router.history.location.state;
-            if(type === 'grade'){
-                gradeActive = id;
-            }
-            if(type === 'subject'){
-                subjectActive = id;
-            }
-
-            if(!gradeActive){
-                gradeActive = '全部'
-            }
-
-            if(!subjectActive){
-                subjectActive = '全部'
-            }
-
-            this.setState({
-                gradeActive,
-                subjectActive
-            })
-        }
-    };
-
-    componentWillMount(){
+    componentDidMount(){
         let that = this;
+        debugger;
         postAxios({
             method: "post",
             url: "/tag/search",

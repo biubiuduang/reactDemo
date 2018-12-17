@@ -40,6 +40,7 @@ export default class Home extends Component{
 
     componentDidMount(){
         let that = this;
+        debugger;
         postAxios({
             method: "post",
             url: "/video/featured",
