@@ -12,19 +12,6 @@ export default class tagNav extends Component{
         }
     }
 
-
-
-    handleTagsClick=(type,id)=>{
-
-
-
-        if(this.context.router.history.location.pathname !== '/list'){
-            this.context.router.history.push({pathname: '/list', state: {type,id}});
-        }
-
-
-    };
-
     handleInit=()=>{
 
         let {gradeActive,subjectActive} = this.state;

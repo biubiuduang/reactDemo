@@ -29,8 +29,9 @@ export default class list extends Component{
                 return <li key={index}>{item.tagId}</li>
             }
             if(index === 2){
-                return <li key={index} className="tags-more"></li>
+                return <li key={index} className="tags-more" />
             }
+            return null;
         });
 
         return (
@@ -43,7 +44,7 @@ export default class list extends Component{
                     <div className="video-info">
                         <div className="user-info">
                             <div className="author">
-                                {author ? <img src={author.thumbnails[0].url} srcSet={`${author.thumbnails[1].url} 2x,${author.thumbnails[2].url} 3x`}/> : <img src="../../static/img/avatar.png"/>}
+                                {author ? <img src={author.thumbnails[0].url} srcSet={`${author.thumbnails[1].url} 2x,${author.thumbnails[2].url} 3x`} alt=""/> : <img src="../../static/img/avatar.png" alt=""/>}
                             </div>
                             <p className="author-name">{name}</p>
                         </div>

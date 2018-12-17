@@ -1,10 +1,7 @@
 import React,{Component} from 'react'
-import PT from 'prop-types'
-
 
 import baseJs from "../../static/js/common"
 
-import Header from "../../component/header/header.js"
 import TagsNav from "../../component/tagNav/tagNav"
 import Item from "../../component/item/item"
 
@@ -19,60 +16,23 @@ export default class Home extends Component{
             gradeActive: '全部',
             subjectActive: '全部',
             tsLast: 0,
+            addMore: false,
+            noMore: true
         }
     }
 
-    static contextTypes = {
-        router: PT.object
-    };
-
     handleInit= () => {
-        console.log(this.context.router);
-        let {type,id} = this.context.router.route.location.state;
-        let {gradeActive,subjectActive,tsLast} = this.state;
-
-        if(type === 'grade'){
-            gradeActive = id;
-        }
-
-        if(type === 'subject'){
-            subjectActive = id;
-        }
-
-        this.setState({
-            gradeActive,
-            subjectActive
-        });
-
-        this.handleGetData({tsLast});
-    };
-
-    handleGetData=(data)=>{
-        var that = this;
-        let {list,tsLast} = this.state;
-        postAxios({
-            method: "post",
-            url: "/video/list",
-            data,
-            success: function(data){
-                if(!data.data.tk_error){
-                    list = list.concat(data.data.videos);
-                    tsLast = list[list.length-1].createTime;
-                    that.setState({
-                        list,
-                        tsLast
-                    })
-                }
-            }
-        })
-    };
-
-    handleClickList = (id) => {
-        console.log(id);
+        let {history} = this.props;
+        console.log(history);
+        let {type,id} = history.location.state;
+        this.dataInit(type,id);
     };
 
     handleNavClick= (type,id) =>{
-        console.log(type,id);
+        this.dataInit(type,id);
+    };
+
+    dataInit = (type,id) =>{
         let {gradeActive,subjectActive} = this.state;
         if(type === 'grade'){
             gradeActive = id;
@@ -87,19 +47,106 @@ export default class Home extends Component{
             subjectActive
         });
 
+        if(gradeActive === '全部' || subjectActive === '全部'){
+            if(gradeActive === '全部' && subjectActive === '全部'){
+                this.handleGetData({tsLast:0});
+            }else{
+                let tagId = gradeActive === '全部' ? subjectActive : gradeActive;
+                this.handleGetData({tsLast:0,tagId});
+            }
+        }else{
+            let tagIds_and = [gradeActive,subjectActive];
+            this.handleGetData({tsLast:0,tagIds_and});
+        }
+    };
+    handleGetData=(data)=>{
+        let that = this;
+        let {list,tsLast} = this.state;
+        postAxios({
+            method: "post",
+            url: "/video/list",
+            data,
+            success: function(data){
+                if(!data.data.tk_error){
+                    list = data.data.videos;
+                    tsLast = list.length > 0 ? list[list.length-1].createTime : 0;
+                    that.setState({
+                        list,
+                        tsLast
+                    })
+                }
+            }
+        })
+    };
+
+    handleScreen = () =>{
+        let that = this;
+        let {list,tsLast,gradeActive,subjectActive,addMore,noMore} = this.state;
+
+        let {history} = this.props;
+
+        let d = {};
+        if(gradeActive === '全部' || subjectActive === '全部'){
+            if(gradeActive === '全部' && subjectActive === '全部'){
+                d = {tsLast};
+            }else{
+                let tagId = gradeActive === '全部' ? subjectActive : gradeActive;
+                d = {tsLast:0,tagId};
+            }
+        }else{
+            let tagIds_and = [gradeActive,subjectActive];
+            d = {tsLast,tagIds_and};
+        }
+
+        let scrollTop = document.documentElement.scrollTop;
+        let clientHeight = document.body.clientHeight;
+        let scrollHeight = document.body.scrollHeight;
+
+        console.log(scrollTop,scrollHeight,clientHeight);
+console.log(history.location.pathname);
+        if(addMore && scrollTop + scrollHeight === clientHeight && history.location.pathname === '/list'){
+            this.setState({
+                addMore : false
+            });
+            postAxios({
+                method: "post",
+                url: "/video/list",
+                data: d,
+                success: function(data){
+                    if(!data.data.tk_error){
+                        if(data.data.videos.length > 0){
+                            list = [...data.data.videos,...list];
+                            tsLast = list[list.length-1].createTime;
+                            addMore = true;
+                        }else{
+                            addMore = false;
+                            noMore = true;
+                        }
+
+                        that.setState({
+                            list,
+                            tsLast,
+                            addMore,
+                        })
+                    }
+                }
+            })
+        }
 
     };
 
-    componentWillMount(){
-        let that = this;
+    componentDidMount(){
         this.handleInit();
+        console.log("will mount");
+        window.addEventListener('scroll', this.handleScreen);
     }
+
 
     render(){
 
         let {list,gradeActive,subjectActive} = this.state;
 
-        let itemList = list.map( item => {
+        let itemList =list.length > 0 ? list.map( item => {
             return <Item
                 handleClick={this.handleClickList}
                 key={item.videoId}
@@ -113,11 +160,10 @@ export default class Home extends Component{
                 like={item.like}
                 tags={item.tags}
             />;
-        });
+        }) : <p>暂无数据!</p>;
 
         return (
-            <div className="content-body">
-                <Header/>
+            <div>
                 <TagsNav
                     handleNavClick={this.handleNavClick}
                     gradeActive={gradeActive}

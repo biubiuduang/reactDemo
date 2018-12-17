@@ -21,6 +21,11 @@ let postAxios = function(prams){
         appId: appId
     };
 
+    let Dialog = document.createElement('div');
+    Dialog.setAttribute("class","dialog");
+    Dialog.innerHTML = `<p>loading...</p>`;
+    document.body.appendChild(Dialog);
+    document.body.setAttribute("class","full");
     axios({
             method,
             headers,
@@ -33,7 +38,8 @@ let postAxios = function(prams){
     ).catch(reject=>{
         typeof error === "function" ? error(reject) : console.log(reject)
     }).finally(()=>{
-
+        document.body.removeChild(Dialog);
+        document.body.setAttribute("class","");
     })
 };
 

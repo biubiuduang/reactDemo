@@ -1,9 +1,7 @@
-import React,{Component,Fragment} from 'react'
-import PT from 'prop-types'
+import React,{Component} from 'react'
 
 import baseJs from "../../static/js/common"
 
-import Header from "../../component/header/header.js"
 import TagsNav from "../../component/tagNav/tagNav"
 import Item from "../../component/item/item"
 
@@ -24,42 +22,24 @@ export default class Home extends Component{
         console.log(id);
     };
 
-    static contextTypes = {
-        router: PT.object
-    };
-
     handleNavClick= (type,id) =>{
-        console.log(type,id);
         let {gradeActive,subjectActive} = this.state;
-        if(type === 'grade'){
-            gradeActive = id;
-        }
+        let {history} = this.props;
 
-        if(type === 'subject'){
-            subjectActive = id;
-        }
+        type === 'grade' ? gradeActive = id : subjectActive = id;
 
-        if(!gradeActive){
-            gradeActive = '全部'
-        }
-
-        if(!subjectActive){
-            subjectActive = '全部'
-        }
+        gradeActive ? subjectActive = '全部' : gradeActive = '全部';
 
         this.setState({
             gradeActive,
             subjectActive
         });
 
-        if(this.context.router.history.location.pathname !== '/list'){
-            this.context.router.history.push({pathname: '/list', state: {type,id}});
-        }
+        history.push({pathname: '/list', state: {type,id}});
     };
 
-    componentWillMount(){
+    componentDidMount(){
         let that = this;
-        console.log("Will Mount");
         postAxios({
             method: "post",
             url: "/video/featured",
@@ -71,7 +51,7 @@ export default class Home extends Component{
                 }
 
             }
-        })
+        });
     }
 
     render(){
@@ -103,8 +83,7 @@ export default class Home extends Component{
         });
 
         return (
-            <div className="content-body">
-                <Header/>
+            <div>
                 <TagsNav
                     handleNavClick={this.handleNavClick}
                     gradeActive={gradeActive}

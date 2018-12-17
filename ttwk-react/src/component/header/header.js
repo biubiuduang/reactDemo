@@ -12,7 +12,7 @@ export default function heander(props){
             </div>
             <div className="header">
                 <Link to="/" className="logo"/>
-                <a href="javascript:void(0);">个人中心</a>
+                <span>个人中心</span>
                 <Link to="/download" className="d-md-inline d-none">下载APP</Link>
             </div>
         </Fragment>

@@ -15,14 +15,18 @@ import './static/js/common'
 
 import Home from './view/home/home'
 import List from './view/list/list'
+import Header from './component/header/header'
 
 ReactDOM.render(
     <Router>
-        <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/list" component={List} />
-            <Route component={Home} />
-        </Switch>
+        <div className="content-body">
+            <Header />
+            <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/list" component={List} />
+                <Route component={Home} />
+            </Switch>
+        </div>
     </Router>,
     document.getElementById('root')
 );

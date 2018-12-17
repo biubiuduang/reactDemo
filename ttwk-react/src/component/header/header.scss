@@ -25,12 +25,13 @@
   width: 100%;
   overflow: hidden;
   padding: 20px;
-  a{
+  span,a{
     font-size: 16px;
     line-height: 32px;
     float: right;
     color:#ffffff;
     margin-left:20px;
+    cursor: pointer;
     &.logo{
       float: left;
       width: 181px;

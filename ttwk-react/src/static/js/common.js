@@ -1,16 +1,19 @@
 let baseParams = {
-    ww: document.body.clientWidth     //浏览器窗口宽度
+    ww: document.body.clientWidth,     //浏览器窗口宽度
+    wh: document.body.clientHeight
 };
 
 let baseJs = {
     init: function(){
         this.resetSize();
+        this.dialog();
     },
     resetSize: function () {
         var that = this;
         this.rem();
         window.onresize = function () {
             baseParams.ww = document.body.clientWidth;
+            baseParams.wh = document.body.clientHeight;
             that.rem();
         };
     },
@@ -19,6 +22,10 @@ let baseJs = {
             let size = baseParams.ww / 18;
             document.getElementsByTagName("html")[0].style.fontSize = `${size}px`
         }
+    },
+    dialog: function(){
+        let dialog = document.getElementsByClassName("dialog");
+        dialog[0].setAttribute('class','dialog-show');
     },
     setCookie: function(c_name,value,expiredays){
         var exdate=new Date(expiredays*1000);

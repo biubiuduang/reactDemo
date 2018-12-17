@@ -86,6 +86,7 @@ class TodoList extends Component{
           todoList
       })
   };
+
   clearCompleted = ()=>{
       let {todoList} = this.state;
       todoList = todoList.filter((elt)=>{
