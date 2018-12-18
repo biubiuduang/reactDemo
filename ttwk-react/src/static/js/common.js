@@ -6,7 +6,7 @@ let baseParams = {
 let baseJs = {
     init: function(){
         this.resetSize();
-        this.dialog();
+        // this.dialog();
     },
     resetSize: function () {
         var that = this;

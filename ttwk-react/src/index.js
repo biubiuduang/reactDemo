@@ -24,8 +24,9 @@ ReactDOM.render(
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/list" component={List} />
-                <Route component={Home} />
+                {/*<Route component={Home} />*/}
             </Switch>
+            <div className="v-model-body" />
         </div>
     </Router>,
     document.getElementById('root')

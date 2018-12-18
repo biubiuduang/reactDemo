@@ -99,14 +99,31 @@ body.full{
   position: fixed;
   left: 0;
   top:0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  display: flex;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  display: none;
   justify-content: center;
   align-items: center;
-  z-index: 99;
   p{
     color: #ffffff;
   }
+}
+
+.v-model-body{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: #000;
+  display: none;
+  opacity:.5;
+  left:0;
+  top:0;
+}
+
+.no-more{
+  text-align: center;
+  line-height: 40px;
+  color:#ffffff;
+  padding-bottom: 20px;
 }

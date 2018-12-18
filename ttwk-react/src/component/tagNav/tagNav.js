@@ -14,7 +14,6 @@ export default class tagNav extends Component{
 
     componentDidMount(){
         let that = this;
-        debugger;
         postAxios({
             method: "post",
             url: "/tag/search",

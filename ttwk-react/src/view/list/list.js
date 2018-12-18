@@ -17,7 +17,7 @@ export default class Home extends Component{
             subjectActive: '全部',
             tsLast: 0,
             addMore: false,
-            noMore: true
+            noMore: false
         }
     }
 
@@ -61,7 +61,7 @@ export default class Home extends Component{
     };
     handleGetData=(data)=>{
         let that = this;
-        let {list,tsLast} = this.state;
+        let {list,tsLast,addMore,noMore} = this.state;
         postAxios({
             method: "post",
             url: "/video/list",
@@ -70,9 +70,18 @@ export default class Home extends Component{
                 if(!data.data.tk_error){
                     list = data.data.videos;
                     tsLast = list.length > 0 ? list[list.length-1].createTime : 0;
+                    if(list.length === 20){
+                        addMore = true;
+                        noMore = false;
+                    }else{
+                        addMore = false;
+                        noMore = true;
+                    }
                     that.setState({
                         list,
-                        tsLast
+                        tsLast,
+                        addMore,
+                        noMore
                     })
                 }
             }
@@ -82,16 +91,14 @@ export default class Home extends Component{
     handleScreen = () =>{
         let that = this;
         let {list,tsLast,gradeActive,subjectActive,addMore,noMore} = this.state;
-
         let {history} = this.props;
-
         let d = {};
         if(gradeActive === '全部' || subjectActive === '全部'){
             if(gradeActive === '全部' && subjectActive === '全部'){
                 d = {tsLast};
             }else{
                 let tagId = gradeActive === '全部' ? subjectActive : gradeActive;
-                d = {tsLast:0,tagId};
+                d = {tsLast,tagId};
             }
         }else{
             let tagIds_and = [gradeActive,subjectActive];
@@ -102,9 +109,7 @@ export default class Home extends Component{
         let clientHeight = document.body.clientHeight;
         let scrollHeight = document.body.scrollHeight;
 
-        console.log(scrollTop,scrollHeight,clientHeight);
-console.log(history.location.pathname);
-        if(addMore && scrollTop + scrollHeight === clientHeight && history.location.pathname === '/list'){
+        if(addMore && scrollTop + clientHeight === scrollHeight && history.location.pathname === '/list'){
             this.setState({
                 addMore : false
             });
@@ -115,18 +120,23 @@ console.log(history.location.pathname);
                 success: function(data){
                     if(!data.data.tk_error){
                         if(data.data.videos.length > 0){
-                            list = [...data.data.videos,...list];
+                            list = [...list,...data.data.videos];
                             tsLast = list[list.length-1].createTime;
-                            addMore = true;
                         }else{
                             addMore = false;
                             noMore = true;
+                        }
+
+                        if(data.data.videos.length === 20){
+                            addMore = true;
+                            noMore = false;
                         }
 
                         that.setState({
                             list,
                             tsLast,
                             addMore,
+                            noMore
                         })
                     }
                 }
@@ -137,14 +147,17 @@ console.log(history.location.pathname);
 
     componentDidMount(){
         this.handleInit();
-        console.log("will mount");
         window.addEventListener('scroll', this.handleScreen);
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener('scroll', this.handleScreen);
     }
 
 
     render(){
 
-        let {list,gradeActive,subjectActive} = this.state;
+        let {list,gradeActive,subjectActive,noMore} = this.state;
 
         let itemList =list.length > 0 ? list.map( item => {
             return <Item
@@ -162,6 +175,8 @@ console.log(history.location.pathname);
             />;
         }) : <p>暂无数据!</p>;
 
+        let more = noMore && list.length > 0 ? <p className="no-more">没有更多的微课了！</p> : null;
+
         return (
             <div>
                 <TagsNav
@@ -169,9 +184,10 @@ console.log(history.location.pathname);
                     gradeActive={gradeActive}
                     subjectActive={subjectActive}
                 />
-                <div className="group-body group-list-body">
+                <ul className="group-body group-list-body">
                     {itemList}
-                </div>
+                </ul>
+                {more}
             </div>
         )
     }

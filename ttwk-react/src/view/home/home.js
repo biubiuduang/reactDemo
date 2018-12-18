@@ -12,9 +12,7 @@ export default class Home extends Component{
     constructor(props){
         super(props);
         this.state = {
-            featured : [],
-            gradeActive: '',
-            subjectActive: ''
+            featured : []
         }
     }
 
@@ -23,24 +21,12 @@ export default class Home extends Component{
     };
 
     handleNavClick= (type,id) =>{
-        let {gradeActive,subjectActive} = this.state;
         let {history} = this.props;
-
-        type === 'grade' ? gradeActive = id : subjectActive = id;
-
-        gradeActive ? subjectActive = '全部' : gradeActive = '全部';
-
-        this.setState({
-            gradeActive,
-            subjectActive
-        });
-
-        history.push({pathname: '/list', state: {type,id}});
+        history.push({pathname:'/list',state: {type,id}});
     };
 
-    componentDidMount(){
+    handleGetData = ()=>{
         let that = this;
-        debugger;
         postAxios({
             method: "post",
             url: "/video/featured",
@@ -53,11 +39,15 @@ export default class Home extends Component{
 
             }
         });
+    };
+
+    componentDidMount(){
+        this.handleGetData();
     }
 
     render(){
 
-        let {featured,gradeActive,subjectActive} = this.state;
+        let {featured} = this.state;
 
         let list = featured.map( item => {
             let listItem = item.videos.map( item =>{
@@ -87,8 +77,6 @@ export default class Home extends Component{
             <div>
                 <TagsNav
                     handleNavClick={this.handleNavClick}
-                    gradeActive={gradeActive}
-                    subjectActive={subjectActive}
                 />
                 <div className="group-body">
                     {list}
