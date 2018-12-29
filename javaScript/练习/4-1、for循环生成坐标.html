@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            color:#ffffff;
+            background-color: red;
+            float: left;
+            line-height: 30px;
+            margin:0 0 10px 10px;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    window.onload = function(){
+        var list = "";
+        var tep = 40;
+        var count = 0;
+        var aDiv = document.getElementsByTagName("div");
+        for(var i = 0; i< 11; i++){
+            list += `<div>${i}</div>`
+        }
+        document.body.innerHTML = list;
+
+        for(var j = 0; j < 11; j++ ){
+            if(j < 6){
+                count++;
+            }else{
+                count--;
+            }
+
+            aDiv[j].style.marginTop = count*tep+"px";
+        }
+    }
+</script>
+</body>
+</html>

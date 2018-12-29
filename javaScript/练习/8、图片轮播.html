@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片轮播</title>
+    <style>
+        #div1,#div2{
+            width: 400px;
+            height: 200px;
+            position: relative;
+            margin: 10px;
+            border: 4px solid #f0f0f0;
+        }
+        img{
+            width: 100%;
+            border:none;
+        }
+        p{
+            margin: 0;
+            position: absolute;
+            background-color: #000000;
+            top: 0;
+            left: 0;
+            color:#ffffff;
+        }
+    </style>
+</head>
+<body>
+<input id="prev" type="button" value="上一组">
+<input id="next" type="button" value="下一组">
+<div id="div1">
+    <p class="page">数量加载中。。。</p>
+    <img src="" alt="">
+</div>
+<div id="div2">
+    <p class="page">1/3</p>
+    <img src="img/23.jpg" alt="">
+</div>
+
+<script>
+    window.onload = function(){
+        var oPrev = document.getElementById("prev");
+        var oNext = document.getElementById("next");
+        var oDiv1 = document.getElementById("div1");
+        var oDiv2 = document.getElementById("div2");
+
+        var arrImg1 = ["img/10.jpg","img/11.jpg","img/12.jpg","img/13.jpg"];
+        var arrImg2 = ["img/23.jpg","img/22.jpg","img/21.jpg"];
+
+        var aDiv = [oDiv1,oDiv2];
+        var aArr = [arrImg1,arrImg2];
+
+        function banner(ele,arr){
+            ele.num = 0;
+            var oImg = ele.getElementsByTagName("img")[0];
+            var oP = ele.getElementsByTagName("p")[0];
+            function init(){
+                oImg.src = arr[ele.num];
+                oP.innerHTML = `${1+ele.num}/${arr.length}`;
+            }
+            init();
+
+            ele.onclick = function(){
+                ele.num++;
+                if(ele.num >= arr.length){
+                    ele.num = 0;
+                }
+                init();
+            }
+        }
+        for(var i = 0; i< aDiv.length;i++){
+            banner(aDiv[i],aArr[i]);
+        }
+
+
+        oPrev.onclick = function(){
+            for(var i = 0; i < aDiv.length; i++){
+                var oImg = aDiv[i].getElementsByTagName("img")[0];
+                var oP = aDiv[i].getElementsByTagName("p")[0];
+
+                if(aDiv[i].num === 0){
+                    aDiv[i].num = aArr[i].length - 1;
+                }else{
+                    aDiv[i].num --;
+                }
+                oImg.src = aArr[i][aDiv[i].num];
+                oP.innerHTML = `${1+aDiv[i].num}/${aArr[i].length}`;
+            }
+        };
+        oNext.onclick = function(){
+            for(var i = 0; i < aDiv.length; i++){
+                var oImg = aDiv[i].getElementsByTagName("img")[0];
+                var oP = aDiv[i].getElementsByTagName("p")[0];
+
+                aDiv[i].num++;
+                if(aDiv[i].num >= aArr[i].length){
+                    aDiv[i].num = 0;
+                }
+                oImg.src = aArr[i][aDiv[i].num];
+                oP.innerHTML = `${1+aDiv[i].num}/${aArr[i].length}`;
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

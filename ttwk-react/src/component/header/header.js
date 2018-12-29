@@ -8,7 +8,7 @@ export default function heander(props){
         <Fragment>
             <div className="d-md-none d-xs-block download-app">
                 <Link to="/download">下载天天微课，观看体验更佳</Link>
-                <div className="download-logo"></div>
+                <div className="download-logo"/>
             </div>
             <div className="header">
                 <Link to="/" className="logo"/>

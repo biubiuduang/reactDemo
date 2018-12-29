@@ -30,10 +30,9 @@ let postAxios = function(prams){
     dialogClass[0].style.zIndex = '2002';
 
     let model = document.getElementsByClassName("v-model-body");
+    console.log(model);
     model[0].style.display = 'block';
     model[0].style.zIndex = '2001';
-
-
 
     axios({
             method,
@@ -45,6 +44,7 @@ let postAxios = function(prams){
     ).then(
         resolve=>success(resolve)
     ).catch(reject=>{
+        console.log(typeof error);
         typeof error === "function" ? error(reject) : console.log(reject)
     }).finally(()=>{
         if(document.getElementsByClassName("dialog").length && document.getElementsByClassName("dialog").length > 1){

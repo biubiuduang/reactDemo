@@ -21,9 +21,13 @@ export default class Home extends Component{
         }
     }
 
+    handleClickList = (id) => {
+        let {history} = this.props;
+        history.push({pathname:`/detail`,state: {id}})
+    };
+
     handleInit= () => {
         let {history} = this.props;
-        console.log(history);
         let {type,id} = history.location.state;
         this.dataInit(type,id);
     };

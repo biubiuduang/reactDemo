@@ -16,6 +16,8 @@ import './static/js/common'
 import Home from './view/home/home'
 import List from './view/list/list'
 import Header from './component/header/header'
+import Detail from "./view/detail/detail";
+
 
 ReactDOM.render(
     <Router>
@@ -24,7 +26,8 @@ ReactDOM.render(
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/list" component={List} />
-                {/*<Route component={Home} />*/}
+                <Route exact path="/detail" component={Detail} />
+                <Route component={Home} />
             </Switch>
             <div className="v-model-body" />
         </div>

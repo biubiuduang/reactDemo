@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>for</title>
+    <style>
+        li{
+            height: 30px;
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+
+<ul id="list">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+<script>
+    window.onload = function(){
+        var oUl = document.getElementById("list");
+        var aLi = oUl.getElementsByTagName("li");
+        var len = aLi.length;
+        for(var i = 0; i < len; i++){
+
+            (function(j){
+                aLi[j].onclick = function(){
+                    console.log(j);
+                }
+            })(i)
+        }
+    }
+</script>
+</body>
+</html>

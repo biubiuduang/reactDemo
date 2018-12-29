@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        p{
+            margin:0;
+        }
+        img{
+            border:none;
+        }
+        #box{
+            width: 400px;
+            height: 200px;
+            border:5px solid #f0f0f0;
+            position:relative;
+            overflow: hidden;
+        }
+        p{
+            color: #ffffff;
+            position: absolute;
+            right:0;
+            left: 0;
+            text-align: center;
+            background-color: rgba(0,0,0,0.4);
+        }
+        #title{
+            top:0;
+        }
+        #page{
+            bottom:0;
+        }
+        #img{
+            width: 100%;
+        }
+        a{
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top:90px;
+            background-color: rgba(0,0,0,0.2);
+            border:3px solid #f0f0f0;
+            text-align: center;
+            font-size: 16px;
+            line-height: 14px;
+            text-decoration:none;
+            color: #ffffff;
+        }
+        #prev{
+            left:10px;
+        }
+        #next{
+            right:10px;
+        }
+        a:hover{
+            background-color: rgba(0,0,0,0.8);
+        }
+
+    </style>
+</head>
+<body>
+<input id="btn1" type="button" value="循环播放" />
+<input id="btn2" type="button" value="顺序播放" />
+<div id="box">
+    <p id="title">标题加载中。。。。</p>
+    <p id="page">页面加载中。。。</p>
+    <img id="img" src=""/>
+    <a id="prev" href="javascript:void(0);"><</a>
+    <a id="next" href="javascript:void(0);">></a>
+</div>
+
+<script>
+    window.onload = function(){
+        function $(id){
+            return document.getElementById(id);
+        }
+        var arrTitle = ['王羽晨1','王羽晨2','王羽晨3','王羽晨4'];
+        var arrImg = ['img/10.jpg','img/11.jpg','img/12.jpg','img/13.jpg'];
+        var count = 0;
+        var len = arrTitle.length;
+        var onOff = true;
+
+        $("btn1").onclick = function(){
+            onOff = true;
+        };
+        $("btn2").onclick = function(){
+            onOff = false;
+        };
+
+        function init(){
+            $("title").innerText = arrTitle[count];
+            $("page").innerText = `${count+1}/${len}`;
+            $("img").src = arrImg[count];
+        }
+        init();
+
+        $("prev").onclick = function(){
+            if(count <= 0){
+                if(onOff){
+                    count = len - 1;
+                }else{
+                    count = 0;
+                    alert("第一张图片了，无法再查看了～～");
+                }
+            }else{
+                count --;
+            }
+            init();
+        };
+        $("next").onclick = function(){
+            count ++;
+            if(count === len){
+                if(onOff){
+                    count = 0;
+                }else{
+                    count = len - 1;
+                    alert("最后一张图片了，没有更多了～～");
+                }
+            }
+            init();
+        }
+    };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>属性操作</title>
+    <style>
+        .red{
+            border: 5px solid #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<input type="text" id="txt1" value="">
+<select id="select1">
+    <option value="北京">北京</option>
+    <option value="上海">上海</option>
+    <option value="杭州">杭州</option>
+</select>
+<input type="button" id="btn1" value="按钮">
+
+<img id="img1" src="" alt=""><br/>
+<input id="btn2" type="button" value="-">
+<input id="btn3" type="button" value="+">
+<input id="btn4" type="button" value="红色">
+<input id="btn5" type="button" value="黄色">
+<p id="text">我是文字。我是文字。我是文字。我是文字。我是文字。我是文字。我是文字。</p>
+<script>
+    window.onload = function(){
+
+        var oBtn = document.getElementById("btn1");
+        var oTxt = document.getElementById("txt1");
+        var oSelect = document.getElementById("select1");
+        var oImg = document.getElementById("img1");
+        oBtn.onclick = function(){
+            this.value = "我被修改了";
+            // alert(`${oTxt.value}在${oSelect.value}`);
+            oImg.src = oTxt.value;
+        };
+
+        var num = 15;
+        var oBtn2 = document.getElementById("btn2");
+        var oBtn3 = document.getElementById("btn3");
+        var oBtn4 = document.getElementById("btn4");
+        var oBtn5 = document.getElementById("btn5");
+        var oTxt1 = document.getElementById("text");
+
+        oTxt1.style.fontSize = `${num}px`;
+        oBtn2.onclick = function(){
+            num--;
+
+            if(num < 12){
+                num = 12;
+            }
+
+            oTxt1.style.fontSize = `${num}px`;
+        };
+        oBtn3.onclick = function(){
+            num++;
+            oTxt1.style.fontSize = `${num}px`;
+        };
+        oBtn4.onclick = function(){
+            num++;
+            oTxt1.style.color = `red`;
+            oTxt1.className = "";
+        };
+        oBtn5.onclick = function(){
+            num++;
+            oTxt1.style.color = `yellow`;
+            oTxt1.className = 'red';
+        }
+
+
+
+    }
+</script>
+</body>
+</html>

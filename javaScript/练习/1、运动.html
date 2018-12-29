@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        li{
+           list-style:none;
+            padding: 0;
+        }
+        .lis{
+            width: 80px;
+            text-align: center;
+        }
+        .lis a {
+            display: block;
+            width: 80px;
+            height: 30px;
+            border:1px solid #000000;
+            text-decoration:none;
+        }
+        .lis ul{
+            width: 160px;
+            height: 100px;
+            border: 1px solid #000000;
+            background-color: yellow;
+            padding: 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li id="lis" class="lis">
+        <a id="link" href="#">微博</a>
+        <ul id="list">
+            <li>私信</li>
+            <li>评论</li>
+            <li>@我</li>
+        </ul>
+    </li>
+</ul>
+<script>
+    window.onload = function(){
+        var oLink = document.getElementById("lis");
+        var oList = document.getElementById("list");
+        oLink.onmouseover = function(){
+            oList.style.display = "block";
+        };
+        oLink.onmouseout = function(){
+            oList.style.display = "none";
+        }
+
+    }
+</script>
+</body>
+</html>
