@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>透明度渐变的封装</title>
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            margin:0;
+            padding: 0;
+        }
+        #div{
+            width: 500px;
+            height: 60px;
+            position: relative;
+            margin-top: 100px;
+            border: 1px solid red;
+        }
+        #shade{
+            position: absolute;
+            left:0;
+            top:0;
+            width: 0;
+            height: 60px;
+            background-color: green;
+            opacity: 0;
+            filter: alpha(0);
+            z-index: 1;
+        }
+        ul{
+            margin: 0;
+            padding: 0;
+            height: 60px;
+        }
+        li {
+            width: 60px;
+            text-align: center;
+            line-height: 60px;
+            list-style: none;
+            position: absolute;
+            top:0;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+<div id="div">
+    <div id="shade"></div>
+    <ul></ul>
+</div>
+<script src="js/wjs.js"></script>
+<script>
+$(function(){
+    var len = 8;
+    var count = 0;
+    var str = '';
+    var timer = null;
+    var onOff= true;
+
+    for(var i = 0; i < len; i++){
+        str += `<li style="left:${i*60}px">+1</li>`
+    }
+    $("ul")[0].innerHTML = str;
+    $("#div").onclick = function(){
+        if(onOff){
+            onOff = false;
+            clearInterval(timer);
+            timer = setInterval(function(){
+                doMove({
+                    obj: $("li")[count],
+                    attr: 'top',
+                    dir: 2,
+                    target: -200,
+                    interval: 40
+                });
+                opacity({
+                    obj: $("li")[count],
+                    dir: 10,
+                    target: 0,
+                    interval: 200
+                });
+                doMove({
+                    obj: $("#shade"),
+                    attr: 'width',
+                    dir: 10,
+                    target: 500,
+                    interval: 20,
+                    cb: function(){
+                        console.log();
+                        if(parseInt(getStyle($("#shade"),'width')) === 500){
+                            doMove({
+                                obj: $("#shade"),
+                                attr: 'left',
+                                dir: 10,
+                                target: 500,
+                                interval: 20,
+                            });
+                            opacity({
+                                obj: $("#shade"),
+                                dir: 10,
+                                target: 0,
+                                interval: 100
+                            });
+                        }
+                    }
+                });
+                opacity({
+                    obj: $("#shade"),
+                    dir: 10,
+                    target: 80,
+                    interval: 100
+                });
+                count++;
+                if(count === len){
+                    clearInterval(timer);
+                }
+            },125)
+        }
+
+    }
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="div">
+    <input type="button" value="1"/>
+    <input type="button" value="2"/>
+    <input type="button" value="3"/>
+</div>
+<ul id="list">
+    <li>
+        <input type="button" value="-">
+        <strong>0</strong>
+        <input type="button" value="+">
+        单价：<em>10.5</em>元
+        小计：<span>0</span>元
+    </li>
+    <li>
+        <input type="button" value="-">
+        <strong>0</strong>
+        <input type="button" value="+">
+        单价：<em>8.5</em>元
+        小计：<span>0</span>元
+    </li>
+    <li>
+        <input type="button" value="-">
+        <strong>2</strong>
+        <input type="button" value="+">
+        单价：<em>9.9</em>元
+        小计：<span>0</span>元
+    </li>
+    <li>
+        <input type="button" value="-">
+        <strong>0</strong>
+        <input type="button" value="+">
+        单价：<em>180.5</em>元
+        小计：<span>0</span>元
+    </li>
+    <li>
+        <input type="button" value="-">
+        <strong>0</strong>
+        <input type="button" value="+">
+        单价：<em>199.92</em>元
+        小计：<span>0</span>元
+    </li>
+    <li>
+        <input type="button" value="-">
+        <strong>0</strong>
+        <input type="button" value="+">
+        单价：<em>88.4</em>元
+        小计：<span>0</span>元
+    </li>
+</ul>
+<div>
+    <p id="total">总数量:<span>0</span>个；总价：<span>0</span>元；单价最高是：<span>0</span>元</p>
+</div>
+
+<script>
+    window.onload = function(){
+        var oUl = document.getElementById("list");
+        var aLi = oUl.getElementsByTagName("li");
+        var len = aLi.length;
+        var oP = document.getElementById("total");
+        var aSpan = oP.getElementsByTagName("span");
+        var aCount = 0;
+        var aTotal = 0;
+        var aPrice = [];
+
+        function fn(ele){
+            var aBtn = ele.getElementsByTagName("input");
+            var oStrong = ele.getElementsByTagName("strong")[0];
+            var oEm = ele.getElementsByTagName("em")[0];
+            var oSpan = ele.getElementsByTagName("span")[0];
+            var count = parseInt(oStrong.innerHTML);
+            var price = parseFloat(oEm.innerHTML);
+            aPrice.push(price);
+            aCount += count;
+            aTotal += ((count) * (price * 100))/100;
+            subtotal();
+            function subtotal(){
+                oSpan.innerHTML = (count * (price * 100))/100;
+                oStrong.innerHTML = count;
+                aSpan[0].innerHTML = aCount;
+                aSpan[1].innerHTML = Math.round(aTotal*100)/100;
+            }
+            aBtn[0].onclick = function(){
+                count --;
+                if(count < 0){
+                    count = 0;
+                }else{
+                    aCount --;
+                    aTotal = Math.round((aTotal * 100) - (price * 100))/100;
+                }
+                subtotal();
+            };
+            aBtn[1].onclick = function(){
+                count ++;
+                aCount ++;
+                aTotal = Math.round((aTotal*100) + (price * 100))/100;
+
+                subtotal();
+            };
+        }
+        for(var i = 0 ; i<len; i++ ){
+            fn(aLi[i]);
+        }
+
+        aSpan[2].innerHTML = aPrice.sort(function(x,y){
+            return y - x;
+        })[0];
+
+
+        //btn
+        var oDiv = document.getElementById("div");
+        var aBtn1 = oDiv.getElementsByTagName("input");
+        var proBtn = 0;
+        for(var i = 0; i < aBtn1.length; i++){
+            (function(j){
+                aBtn1[j].onclick = function(){
+                    aBtn1[proBtn].style.backgroundColor = "";
+                    aBtn1[j].style.backgroundColor = "yellow";
+                    proBtn = j;
+                }
+            })(i)
+        };
+    }
+</script>
+</body>
+</html>

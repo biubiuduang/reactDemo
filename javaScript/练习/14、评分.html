@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul{
+            overflow: hidden;
+        }
+        li{
+            width: 50px;
+            height: 50px;
+            border:1px solid #000000;
+            list-style: none;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+<p></p>
+<script>
+    window.onload = function(){
+        var oUl = document.getElementsByTagName("ul");
+        var aLi = document.getElementsByTagName("li");
+        var oP = document.getElementsByTagName("p")[0];
+        var clickIndex = "";
+
+        for(var i = 0; i < aLi.length;i++){
+            aLi[i].index = i;
+            (function(j){aLi[j].onmouseover = function(){
+                oP.innerHTML = j;
+                if(j < 2){
+                    fn1(j,"#666666");
+                }else{
+                    fn1(j,"red");
+                }
+            }})(i);
+            aLi[i].onclick = function(){
+                oP.innerHTML = this.index;
+                clickIndex = this.index;
+            };
+        }
+        oUl[0].onmouseout = function(){
+            oP.innerHTML = clickIndex;
+            if(clickIndex === ""){
+                fn1(clickIndex,"");
+            }else if(clickIndex < 2){
+                fn1(clickIndex,"#666666");
+            }else {
+                fn1(clickIndex,"red");
+            }
+        };
+        function fn1(index,color){
+            for(var j=0; j< aLi.length;j++){
+                aLi[j].style.backgroundColor = "";
+            }
+            for(var i =0 ; i< index+1;i++){
+                aLi[i].style.backgroundColor = color;
+            }
+        }
+
+        function fn2(a){
+            return function(b){
+                return function(c){
+                    alert(a+b+c);
+                }
+            }
+        }
+        fn2(10)(20)(30);
+
+        function fn3(a,b){
+            var arr = [];
+            console.log(arguments);
+            if(b){
+                if(a > b){
+                    for(var i = b; i <= a;i ++){
+                        arr.push(i);
+                    }
+                }else{
+                    for(var i = a; i <= b;i ++){
+                        arr.push(i);
+                    }
+                }
+                return arr;
+            }else{
+                for(var i = 1; i <= a;i ++){
+                    arr.push(i);
+                }
+                return arr;
+            }
+        }
+
+        console.log(fn3(6,2));
+        console.log(fn3(3,8));
+        console.log(fn3(8));
+    }
+</script>
+</body>
+</html>

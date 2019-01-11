@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width:100px;
+            height:200px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+<input id="btn" type="button" value="button"/>
+<div id="div"></div>
+<script>
+    window.onload = function(){
+        var oBtn = document.getElementById("btn");
+        var oDiv = document.getElementById("div");
+
+        oBtn.onclick = function(){
+            console.log(getComputedStyle(oDiv).width);
+            console.log(getComputedStyle(oDiv).backgroundColor);
+        }
+    }
+</script>
+</body>
+</html>

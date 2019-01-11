@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input id="btn" type="button" value="反选" />
+<ul>
+    <li><input type="checkbox" /></li>
+    <li><input type="checkbox" checked /></li>
+    <li><input type="checkbox" /></li>
+    <li><input type="checkbox" /></li>
+    <li><input type="checkbox" /></li>
+    <li><input type="checkbox" /></li>
+    <li><input type="checkbox" /></li>
+    <li><input type="checkbox" /></li>
+    <li><input type="checkbox" /></li>
+    <li><input type="checkbox" /></li>
+</ul>
+
+<script>
+    window.onload = function(){
+        var oBtn = document.getElementById("btn");
+        var aCheckbox = document.getElementsByTagName("input");
+
+        oBtn.onclick = function(){
+            for(var i = 1; i < aCheckbox.length;i++){
+                aCheckbox[i].checked = !aCheckbox[i].checked;
+            }
+        }
+    }
+</script>
+</body>
+</html>

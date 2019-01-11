@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div></div>
+<div></div>
+<script src="js/wjs.js"></script>
+<script>
+    window.onload = function(){
+        var aDiv = document.getElementsByTagName("div");
+        var timer = null;
+        function getDate(){
+            var d = new Date();
+            var iYear = d.getFullYear();
+            var iMonth = d.getMonth()+1;
+            var iDate = d.getDate();
+            var iHours = toDouble(d.getHours());
+            var iMin = toDouble(d.getMinutes());
+            var iSec = toDouble(d.getSeconds());
+            var iDay = d.getDay();
+            var iWeek = "";
+
+            var iNew = new Date(2019,0,10,14,31,0);
+
+            var t = Math.floor((iNew - d)/1000); //毫秒 => 秒
+
+            if(t === 0){
+                clearInterval(timer);
+            }
+            var str = Math.floor(t/86400)+'天'+Math.floor(t%86400/3600)+'时'+Math.floor(t%86400%3600/60)+'分'+
+                t%60 +'秒';
+
+            switch (iDay){
+                case 1 :
+                    iWeek = '星期一';
+                    break;
+                case 2 :
+                    iWeek = '星期二';
+                    break;
+                case 3 :
+                    iWeek = '星期三';
+                    break;
+                case 4 :
+                    iWeek = '星期四';
+                    break;
+                case 5 :
+                    iWeek = '星期五';
+                    break;
+                case 6 :
+                    iWeek = '星期六';
+                    break;
+                case 0:
+                default:
+                    iWeek = '星期日';
+            }
+            aDiv[0].innerHTML = `${iYear}年${iMonth}月${iDate}日 ${iHours}:${iMin}:${iSec} ${iWeek}`
+            aDiv[1].innerHTML = `剩余时间： ${str}`
+        }
+        getDate();
+        timer = setInterval(getDate,1000);
+        function toDouble(n){
+           return n < 9 ? '0'+n : n;
+        }
+    }
+</script>
+</body>
+</html>

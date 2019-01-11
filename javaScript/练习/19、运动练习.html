@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>运动练习</title>
+    <style>
+        div{
+            width: 400px;
+            height: 200px;
+            border:1px solid red;
+            overflow: hidden;
+        }
+        #banner{
+            height: 200px;
+            margin:0;
+            padding: 0;
+            position: relative;
+            left: 0;
+            top: 0;
+            /*overflow:hidden;*/
+        }
+        li{
+            list-style: none;
+            width: 100%;
+            height: 200px;
+            position: absolute;
+            top: 0;
+        }
+        li img{
+            width: 100%;
+            height: 100%;
+        }
+        li p{
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            margin:0;
+            text-align: center;
+            background-color: rgba(0,0,0,0.4);
+            position: absolute;
+            bottom: -30px;
+            color:#ffffff;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <ul id="banner">
+
+    </ul>
+</div>
+
+<script src="js/wjs.js"></script>
+<script>
+    window.onload = function(){
+        var str = "";
+        var arrImg = ["./img/10.jpg","./img/11.jpg","./img/12.jpg","./img/13.jpg"];
+        var arrTxt = ["img/10.jpg","img/11.jpg","img/12.jpg","img/13.jpg"];
+        var count = 0;
+        var len = arrImg.length;
+        var oUl = document.getElementById("banner");
+        var timer = null;
+
+        for(var i = 0; i<len;i++){
+            str += `<li style="left:${i*400}px"><img src=${arrImg[i]} /><p>${arrTxt[i]}</p></li>`;
+        }
+        oUl.innerHTML = str;
+        var aLi = oUl.getElementsByTagName("li");
+
+        function banner() {
+            doMove({
+                obj: oUl,
+                attr: 'left',
+                dir: 10,
+                target : - count * 400,
+                interval : 14,
+                cb: function () {
+                    var oP = aLi[count].getElementsByTagName('p')[0];
+                    doMove({
+                        obj: oP,
+                        attr: 'bottom',
+                        dir: 2,
+                        target: 0,
+                        interval: 14,
+                        cb: function(){
+                            setTimeout(function () {
+                                doMove({
+                                    obj: oP,
+                                    attr: 'bottom',
+                                    dir: 2,
+                                    target: -30,
+                                    interval: 14,
+                                    cb : function(){
+                                        count++;
+                                        count%=len;
+                                        if(count === 0){
+                                            setTimeout(function () {
+                                                banner();
+                                            });
+                                            oUl.style.left = 0;
+                                        }else{
+                                            banner();
+                                        }
+                                    }
+                                })
+                            }, 2000)
+                        }
+                    });
+                }
+            })
+        }
+        banner();
+
+
+    }
+</script>
+</body>
+</html>

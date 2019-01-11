@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width: 400px;
+            height:200px;
+            border:1px solid red;
+        }
+        ul{
+            margin: 0;
+            padding: 0;
+            width: 1200px;
+            height: 200px;
+        }
+        li{
+            list-style: none;
+            width: 400px;
+            height: 200px;
+            float: left;
+        }
+        li img{
+            width: 400px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <ul id="ul">
+
+    </ul>
+</div>
+<script src="js/wjs.js"></script>
+<script>
+    window.onload = function(){
+        var arrImg = ["./img/10.jpg","./img/11.jpg","./img/12.jpg","./img/13.jpg","./img/14.jpg","./img/15.jpg","./img/16.jpg","./img/17.jpg"];
+        var arrTxt = ["img/10.jpg","img/11.jpg","img/12.jpg","img/13.jpg"];
+        var oUl = document.getElementById("ul");
+        var aLi = oUl.getElementsByTagName("li");
+        var len = arrImg.length;
+        var str = '';
+        var count = 2;
+
+        for(var i=0;i<count;i++){
+            str += `<li><img src=${arrImg[i]} /></li>`;
+        };
+        oUl.innerHTML = str;
+        setInterval(()=>{
+            doMove({
+                obj: aLi[0],
+                attr: 'marginLeft',
+                dir: 2,
+                target: -400,
+                interval: 14,
+                cb: function(){
+                    var oli=document.createElement("li");
+                    oli.innerHTML = `<img src=${arrImg[count]} />`;
+                    oUl.appendChild(oli);
+                    oUl.removeChild(aLi[0]);
+                }
+            });
+            count++;
+            count%=len;
+        },5000)
+
+    }
+</script>
+</body>
+</html>

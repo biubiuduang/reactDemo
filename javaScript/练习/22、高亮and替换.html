@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>高亮and替换</title>
+    <style>
+        span{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+<input type="text">
+<input type="text">
+<input type="button" value="替换">
+<p>你好哈哈哈哈哈哈哈哈哈你好哈哈哈哈哈哈哈啊哈哈你好哈哈哈哈哈哈哈啊哈哈哈！</p>
+
+<script>
+    window.onload = function(){
+        var aInp = document.getElementsByTagName("input");
+        var oP = document.getElementsByTagName("p")[0];
+
+        aInp[2].onclick = function(){
+            var str = aInp[0].value;
+            var newStr = aInp[1].value;
+            if(!str) return;
+            var arr = oP.innerText.split(str).join(`<span>${newStr}</span>`);
+            oP.innerHTML = arr;
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="div1"></div>
+<input type="text" />
+<input type="button" value="添加文字">
+<script>
+    window.onload = function(){
+        var str = "ZHello World";
+        // alert(str.charCodeAt(0)); // 0~9 48 - 57  a~z 97-122  A~Z 65-90
+        // string.charAt();
+        // string.charCodeAt();
+        // alert(String.fromCharCode(520000));
+        // console.log(str.indexOf('He',1));
+        var str1 = "你好哈哈哈哈哈哈哈你好哈哈哈哈哈哈哈哈哈哈你好哈哈哈哈哈哈哈哈";
+        var s = "你好";
+        var count = 0;
+        for( var i = 0; str1.indexOf(s,i)!=-1 ; i = str1.indexOf(s,i)+s.length){
+            count++;
+        }
+        console.log(count);
+
+        var oDiv = document.getElementById("div1");
+        var aInp = document.getElementsByTagName("input");
+        var arrColor = ['red','yellow','green','pink','blank'];
+
+        aInp[1].onclick = function(){
+            var val = aInp[0].value;
+            var arr = val.split("");
+            var len = arr.length;
+            var str = "";
+            for(var i =0 ;i < len;i++){
+                str += `<span style="color:${arrColor[i%arrColor.length]}">${arr[i]}</span>`
+            };
+            oDiv.innerHTML +=str;
+        }
+
+    }
+</script>
+</body>
+</html>
