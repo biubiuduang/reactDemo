@@ -12,16 +12,15 @@
         }
         #div{
             width: 500px;
-            height: 60px;
             position: relative;
             margin-top: 100px;
             border: 1px solid red;
         }
         #shade{
             position: absolute;
-            left:0;
+            right:500px;
             top:0;
-            width: 0;
+            width: 500px;
             height: 60px;
             background-color: green;
             opacity: 0;
@@ -32,6 +31,7 @@
             margin: 0;
             padding: 0;
             height: 60px;
+            overflow-y: auto;
         }
         li {
             width: 60px;
@@ -49,7 +49,7 @@
     <div id="shade"></div>
     <ul></ul>
 </div>
-<script src="js/wjs.js"></script>
+<script src="../js/king.js"></script>
 <script>
 $(function(){
     var len = 8;
@@ -80,20 +80,26 @@ $(function(){
                     target: 0,
                     interval: 200
                 });
+                count++;
+                if(count === len){
+                    clearInterval(timer);
+                }
+            },125)
+
+            setTimeout(function(){
                 doMove({
                     obj: $("#shade"),
-                    attr: 'width',
+                    attr: 'right',
                     dir: 10,
-                    target: 500,
+                    target: 0,
                     interval: 20,
                     cb: function(){
-                        console.log();
-                        if(parseInt(getStyle($("#shade"),'width')) === 500){
+                        if(parseInt(getStyle($("#shade"),'right')) === 0){
                             doMove({
                                 obj: $("#shade"),
-                                attr: 'left',
+                                attr: 'width',
                                 dir: 10,
-                                target: 500,
+                                target: 0,
                                 interval: 20,
                             });
                             opacity({
@@ -111,14 +117,9 @@ $(function(){
                     target: 80,
                     interval: 100
                 });
-                count++;
-                if(count === len){
-                    clearInterval(timer);
-                }
-            },125)
+            })
         }
-
-    }
+    };
 })
 </script>
 </body>

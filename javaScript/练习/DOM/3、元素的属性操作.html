@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>元素的属性操纵</title>
+    <style>
+        #div1{
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            border:10px solid green;
+        }
+    </style>
+</head>
+<body>
+<div id="div1" data-name="hello"></div>
+<img src="../img/10.jpg" alt="">
+<script src="../js/king.js"></script>
+<script>
+    $(function(){
+        console.log($("#div1").getAttribute('data-name'));
+        $("#div1").setAttribute("index",3);
+        $("#div1").removeAttribute("index");
+
+        console.log($('img')[0].getAttribute("src"));
+
+        console.log($("#div1").clientWidth);
+        console.log($("#div1").offsetWidth);
+
+        console.log(document.documentElement.clientWidth);
+        console.log(document.documentElement.clientHeight);
+    })
+</script>
+</body>
+</html>

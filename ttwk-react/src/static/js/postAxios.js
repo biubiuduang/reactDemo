@@ -21,18 +21,25 @@ let postAxios = function(prams){
         appId: appId
     };
 
+    let dialogClass = document.getElementsByClassName("dialog");
+
+    let Model = document.createElement("div");
+    if(dialogClass.length === 0 ){
+        Model.setAttribute("class","v-model-body");
+        Model.style.display = 'block';
+        Model.style.zIndex = 100+dialogClass.length;
+        document.body.appendChild(Model);
+    }
+
     let Dialog = document.createElement('div');
     Dialog.setAttribute("class","dialog");
     Dialog.innerHTML = `<p>loading...</p>`;
     document.body.appendChild(Dialog);
-    let dialogClass = document.getElementsByClassName("dialog");
-    dialogClass[0].style.display = 'flex';
-    dialogClass[0].style.zIndex = '2002';
 
-    let model = document.getElementsByClassName("v-model-body");
-    console.log(model);
-    model[0].style.display = 'block';
-    model[0].style.zIndex = '2001';
+    Dialog.style.display = 'flex';
+    Dialog.style.zIndex = 100+dialogClass.length+1;
+
+    debugger;
 
     axios({
             method,
@@ -47,13 +54,10 @@ let postAxios = function(prams){
         console.log(typeof error);
         typeof error === "function" ? error(reject) : console.log(reject)
     }).finally(()=>{
-        if(document.getElementsByClassName("dialog").length && document.getElementsByClassName("dialog").length > 1){
-            document.body.removeChild(dialogClass[0]);
-            dialogClass[0].style.display = 'flex';
-            dialogClass[0].style.zIndex = '2002';
-        }else{
-            document.body.removeChild(dialogClass[0]);
-            model[0].style.display = 'none';
+        document.getElementsByTagName("body")[0].removeChild(Dialog);
+        console.log(Model);
+        if(document.getElementsByClassName("dialog").length === 0 ){
+            document.getElementsByClassName("v-model-body")[0].style.display = 'none';
         }
 
     })

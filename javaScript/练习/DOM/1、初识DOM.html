@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>初识DOM</title>
+</head>
+<body>
+<div id="div">1234567</div>
+<ul>
+    <li>11111111111111</li>
+    <li>22222222222222</li>
+    <li>33333333333333</li>
+    <li>44444444</li>
+    <li>555555</li>
+    <li>66666</li>
+    <li>7777</li>
+    <li>8888</li>
+    <li>9999</li>
+</ul>
+<script>
+    window.onload = function(){
+        var oDiv = document.getElementById("div");
+        console.log(oDiv.nodeType);
+        console.log(oDiv.childNodes[0]);
+        console.log(document.nodeType);
+        console.log(oDiv.attributes[0].nodeName);
+        console.log(oDiv.attributes[0].nodeValue);
+
+        var aLi = document.getElementsByTagName("li");
+
+        for(var i =0; i < aLi.length;i++){
+            (function(j){aLi[j].onclick = function(){
+                console.log(j);
+                this.style.display = 'none';
+            }})(i)
+        }
+    }
+</script>
+</body>
+</html>

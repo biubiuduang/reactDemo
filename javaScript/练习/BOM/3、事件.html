@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件</title>
+    <style>
+        #div1{
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top:0;
+            left:0;
+            background-color: red;
+        }
+    </style>
+</head>
+<body style="height: 2000px;width: 130%;">
+<input type="text" value="请输入内容" />
+<input type="button" value="全选">
+<div id="div1"></div>
+<script src="../js/king.js"></script>
+<script>
+    $(function(){
+        $("input")[0].onfocus = function(){
+            if(this.value === '请输入内容'){
+                this.value = '';
+            }
+        };
+        $("input")[0].onblur = function(){
+            if(this.value === ''){
+                this.value = '请输入内容';
+            }
+        };
+        $("input")[1].onclick = function(ev){
+            var ev = ev || event;
+            console.log(ev);
+            if($("input")[0].value === '请输入内容'){
+                alert('请输入内容');
+            }else{
+                $("input")[0].select();
+            }
+        };
+        var w = $("#div1").scrollWidth/2;
+        var h = $("#div1").scrollHeight/2;
+        document.onmousemove = function(ev){
+            var ev = ev || event;
+            console.log(ev.clientX,ev.clientY);
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+
+            var left = ev.clientX+scrollLeft - w;
+            var top = ev.clientY+scrollTop - h;
+
+            $("#div1").style.cssText = `left:${left}px;top:${top}px`;
+        }
+    })
+</script>
+</body>
+</html>

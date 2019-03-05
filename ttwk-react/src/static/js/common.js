@@ -77,6 +77,15 @@ let baseJs = {
         if(format === 'length'){
             return `${minute}分${second}秒`
         }
+    },
+    //获取当前元素的属性： 兼容IE6 7 和 其他浏览器
+    /**
+     * 获取当前元素属性的原生方法：
+     * IE6 7 : obj.currentStyle[attr]
+     * 其他浏览器： getComputedStyle(obj)[attr]
+     * */
+    getStyle: function (obj, attr) {
+        return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj)[attr]
     }
 };
 

@@ -29,7 +29,7 @@ ReactDOM.render(
                 <Route exact path="/detail" component={Detail} />
                 <Route component={Home} />
             </Switch>
-            <div className="v-model-body" />
+
         </div>
     </Router>,
     document.getElementById('root')

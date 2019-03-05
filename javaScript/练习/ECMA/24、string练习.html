@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>String移动</title>
+    <style>
+        .content{
+            width: 900px;
+        }
+        textarea{
+            resize:none;
+            width: 300px;
+            height: 200px;
+            background-color: yellow;
+            float: left;
+        }
+        .target{
+            width: 300px;
+            height: 200px;
+            background-color: aqua;
+            float: right;
+            overflow-y: scroll;
+        }
+        ul{
+            margin:0;
+            padding: 0;
+        }
+        li{
+            list-style: none;
+        }
+        .middle{
+            text-align: center;
+            overflow: hidden;
+        }
+        .middle ul{
+            overflow: hidden;
+            margin: 0 auto;
+            text-align: center;
+            display: none;
+        }
+        .middle li{
+            width: 10px;
+            height: 10px;
+            background-color: aquamarine;
+            display: inline-block;
+        }
+        .middle li.active{
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <textarea></textarea>
+    <div class="target">
+
+    </div>
+    <div class="middle">
+        <input type="button" value="把文字右移">
+        <p class="count"><span>0</span>/<span>0</span></p>
+        <ul class="loading">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+<script src="../js/king.js"></script>
+<script>
+    $(function(){
+        var oInput = $(".middle")[0].getElementsByTagName("input")[0];
+        var aSpan =$(".count")[0].getElementsByTagName("span");
+        var count = 0;
+
+        oInput.onclick = function(){
+            if(!oInput.onOff){
+                oInput.onOff = true;
+                var str = "";
+                count = 0;
+                var val = $('textarea')[0].value;
+                $('.target')[0].innerText = '';
+                if(val){
+                    var tTimer = null;
+                    $(".loading")[0].style.display ="block";
+                    loading();
+                    var len = val.length;
+                    aSpan[1].innerText = len;
+                    tTimer = setInterval(function(){
+                        len--;
+                        if(len === 0){
+                            clearInterval(tTimer);
+                            oInput.onOff = false;
+                            $(".loading")[0].style.display ="none";
+                        }
+                        count++;
+                        aSpan[0].innerText = count;
+                        str += val.substring(0,1);
+                        val = val.substring(1);
+                        $('textarea')[0].value = val;
+                        $('.target')[0].innerText = str;
+                    },100);
+                }else{
+                    aSpan[0].innerText = 0;
+                    aSpan[1].innerText = 0;
+                    alert("请输入要转移的文字！");
+                    oInput.onOff = false;
+                }
+            }
+
+        }
+    });
+
+    function loading(){
+        var aLi = $(".loading")[0].getElementsByTagName("li");
+        var len = aLi.length;
+        var timer = null;
+        var count = 0;
+        var pro = 0;
+        timer = setInterval(function(){
+            if(getStyle($(".loading")[0],"display") ==='none'){
+                clearInterval(timer);
+            };
+            aLi[pro].className = "";
+            pro = count;
+            aLi[count].className = "active";
+            count++;
+            count%=len;
+
+        },100)
+    }
+</script>
+</body>
+</html>

@@ -1,3 +1,14 @@
+/**
+    //浏览器窗口 宽 高
+    winWidth: document.documentElement.clientWidth,
+    winHeight: document.documentElement.clientHeight,
+    //获取 滚动条距离顶部的距离 兼容性解决。 chrome：document.body.scrollTop = 0；
+    scrollTop : document.documentElement.scrollTop || document.body.scrollTop,
+    scrollLeft : document.documentElement.scrollLeft || document.body.scrollLeft,
+    //body内容 高度
+    bodyHeight: document.body.scrollHeight,
+**/
+
 //获取元素的简单封装
 /**
  * val
@@ -57,6 +68,7 @@ function doMove(params){
  *   obj //改变的对象 （required）
  *   dir //步长值  （required）
  *   target //目标值 （required）
+ *   interval //一次的时长 (默认 100 )
  *   cb //回调函数
  * */
 function opacity(params){
@@ -87,7 +99,6 @@ function opacity(params){
 * */
 function shake(obj,attr,cb){
     if(!obj.onOff){
-        console.log(obj.onOff,attr);
         obj.onOff = true;
         var arr = [];
         var num = 0;
@@ -120,3 +131,53 @@ function getStyle(obj,attr){
     return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj)[attr]
 }
 
+/**
+ * 拖拽功能封装
+ * */
+function drag(obj){
+    obj.onmousedown = function(ev){
+        var ev = ev || event;
+        console.log(ev);
+        var downX = ev.offsetX;
+        var downY = ev.offsetY;
+
+        //兼容低版本IE
+        if(obj.setCapture){
+            obj.setCapture();
+        }
+
+        document.onmousemove = function(ev){
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+            var ev = ev || event;
+
+            var L = ev.clientX+scrollLeft - downX;
+            var T = ev.clientY+scrollTop - downY;
+
+            if(L < 100){
+                L = 0;
+            }else if(L > document.documentElement.clientWidth+scrollLeft-obj.offsetWidth){
+                L = document.documentElement.clientWidth+scrollLeft-obj.offsetWidth;
+            }
+
+            if(T < 0){
+                T = 0;
+            }else if (T > document.documentElement.clientHeight+scrollTop - obj.offsetHeight){
+                T = document.documentElement.clientHeight+scrollTop  - obj.offsetHeight;
+            }
+
+            obj.style.left = L +'px';
+            obj.style.top = T +'px';
+        };
+        document.onmouseup = function(){
+            document.onmousemove = document.onmouseup = null;
+            //兼容低版本IE
+            if(obj.releaseCapture){
+                obj.releaseCapture();
+            }
+        };
+
+        //阻止默认行为（图片就很明显）
+        return false;
+    }
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>获取浏览器信息</title>
+</head>
+<body>
+<dl>
+    <dt>获取浏览器信息</dt>
+    <dd>- window.navigator.userAgent</dd>
+    <dt>获取浏览器地址信息</dt>
+    <dd>- window.location</dd>
+</dl>
+<input type="button" value="修改浏览器地址hash" id="btn"/>
+<p id="oP"></p>
+<script src="../js/king.js"></script>
+<script>
+    window.onload = function(){
+
+        //浏览器信息
+        console.log(window.navigator.userAgent);
+        //浏览器地址信息
+        console.log(window.location);
+        var num = 0;
+        $("#btn").onclick = function(){
+            window.location.href = window.location.origin+window.location.pathname+window.location.search+"#"+num;
+            $("#oP").innerHTML = window.location.href;
+            num++;
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>产品过期</title>
+    <style>
+        html,body,ul,p,div{
+            margin:0;
+            padding: 0;
+        }
+        #content{
+            width: 1000px;
+            margin: 0 auto;
+            border: 1px solid red;
+            overflow: hidden;
+        }
+        ul{
+            width: 100%;
+        }
+        li {
+            list-style: none;
+        }
+        #list{
+            height: 268px;
+        }
+        #list li{
+            width: 25%;
+            height: 258px;
+            float: left;
+            position:relative;
+            background-color: red;
+        }
+        #list li .item{
+            height: 258px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            padding: 5px;
+            background-color: #ffffff;
+        }
+        #list li img{
+            width: 100%;
+        }
+        .table{
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 20px;
+        }
+        .table li{
+            border-bottom: 1px solid #000000;
+            overflow: hidden;
+        }
+        .table li p{
+            float: left;
+            line-height: 100px;
+        }
+        .table li p img{
+            width: 100px;
+            height: auto;
+            vertical-align: middle;
+        }
+        li .title{
+            width: 400px;
+        }
+        li .price{
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+    <ul id="list">
+        <li>
+            <div class="item">
+                <input type="text" >
+                <input type="button" value="确定">
+                <p>剩余00天00时00分00秒</p>
+                <img src="../img/10.jpg" alt="">
+                <p>我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题</p>
+                <p>抢购价：¥<span>166.00</span></p>
+            </div>
+        </li>
+        <li>
+            <div class="item">
+                <input type="text" >
+                <input type="button" value="确定">
+                <p>剩余00天00时00分00秒</p>
+                <img src="../img/11.jpg" alt="">
+                <p>我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题</p>
+                <p>抢购价：¥<span>2333.00</span></p>
+            </div>
+        </li>
+        <li>
+            <div class="item">
+                <input type="text" >
+                <input type="button" value="确定">
+                <p>剩余00天00时00分00秒</p>
+                <img src="../img/12.jpg" alt="">
+                <p>我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题</p>
+                <p>抢购价：¥<span>198.00</span></p>
+            </div>
+        </li>
+        <li>
+            <div class="item">
+                <input type="text" >
+                <input type="button" value="确定">
+                <p>剩余00天00时00分00秒</p>
+                <img src="../img/13.jpg" alt="">
+                <p>我是标题我是标题</p>
+                <p>抢购价：¥<span>6.20</span></p>
+            </div>
+        </li>
+    </ul>
+
+    <ul class="table">
+        <li>
+            <p class="title">商品名称</p>
+            <p class="price">价钱</p>
+        </li>
+    </ul>
+    <ul id="table" class="table"></ul>
+    <p>总价：<span id="total">0</span>元</p>
+</div>
+
+<script src="../js/king.js"></script>
+<script>
+$(function(){
+    var aLi = $("#list").getElementsByTagName("li");
+
+    var total = 0;
+
+    var table = function(title,price,img){
+        var oLi = document.createElement("li");
+        oLi.innerHTML = `<p class="title">${title}</p>
+            <p class="title">${price/100}</p>
+            <p><img src=${img} alt=""></p>`;
+        $("#table").appendChild(oLi);
+    };
+
+    for(var i = 0; i < aLi.length;i++){
+        (function(j){
+            var oDiv = aLi[j].getElementsByClassName("item")[0];
+            var aInput = aLi[j].getElementsByTagName("input");
+            var aP = aLi[j].getElementsByTagName("p");
+            var oImg = aLi[j].getElementsByTagName("img")[0];
+            var oSpan = aP[2].getElementsByTagName("span")[0];
+            var price = parseFloat(oSpan.innerHTML)*100;
+
+            aInput[1].onclick = function(){
+                if(!aInput[1].onOff){
+                    aInput[1].onOff = true;
+                    aLi[j].timer = null;
+                    clearInterval(aLi[j].timer);
+                    var iNew = new Date(aInput[0].value);
+                    function down(){
+                        var d = new Date();
+                        var t = Math.floor((iNew-d)/1000);
+                        if(t <=0 ){
+                            t = 0;
+                            clearInterval(aLi[j].timer);
+                            shake(oDiv,'left',()=>{
+                                doMove({
+                                    obj:oDiv,
+                                    attr: 'top',
+                                    dir: 2,
+                                    target: 400,
+                                    interval: 14,
+                                    cb: ()=>{
+                                        var str = aP[1].innerText;
+                                        if(str.length > 18){
+                                            str = `${str.substring(0,18)}<span>...</span>`
+                                        }
+                                        table(str,price,oImg.src);
+
+                                        total += price;
+                                        $("#total").innerText = parseFloat(total/100);
+                                    }
+                                });
+                                opacity({
+                                    obj: oDiv,
+                                    dir: 5,
+                                    target: 0,
+                                    interval: 100
+                                })
+                            })
+                        }
+                        aP[0].innerHTML = `剩余${Math.floor(t/86400)}天${Math.floor(t%86400/3600)}时${Math.floor(t%86400%3600/60)}分${t%60}秒`
+                    };
+
+                    down();
+                    aLi[j].timer = setInterval(()=>{
+                        down();
+                    },1000);
+                }
+            }
+        })(i);
+    }
+
+
+
+})
+</script>
+</body>
+</html>

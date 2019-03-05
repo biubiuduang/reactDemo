@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加元素</title>
+    <style>
+        div{
+            width: 100px;
+            height:100px;
+        }
+        #div1{
+            background-color: red;
+        }
+        #div2{
+            background-color: blue;
+        }
+        p{
+            color: #ffffff;
+            margin:0;
+        }
+    </style>
+</head>
+<body>
+<input type="button" id="btn1" value="后添加" />
+<input type="button" id="btn2" value="前添加" />
+<input type="button" id="btn3" value="删除最后" />
+<input type="button" id="btn4" value="删除第一个" />
+<input type="button" id="btn5" value="替换" />
+<input type="button" id="btn6" value="克隆">
+<ul id="ul"></ul>
+<div id="box">
+    <div id="div1"></div>
+    <hr />
+    <div id="div2">
+        <p>11111111111</p>
+    </div>
+</div>
+<script src="../js/king.js"></script>
+<script>
+    $(function(){
+        var num = 0;
+        $("#btn1").onclick = function(){
+            var li = document.createElement("li");
+            num++;
+            li.innerHTML = num;
+            $("#ul").appendChild(li);
+        };
+        $("#btn2").onclick = function(){
+            var li = document.createElement("li");
+            num++;
+            li.innerHTML = num;
+            $("#ul").insertBefore(li,$("#ul").children[0]);
+        };
+        $("#btn3").onclick = function(){
+            if($("#ul").lastElementChild){
+                $("#ul").removeChild($("#ul").lastElementChild);
+                return;
+            }
+            console.log($("#ul").lastElementChild);
+        };
+        $("#btn4").onclick = function(){
+            if($("#ul").firstElementChild){
+                $("#ul").removeChild($("#ul").firstElementChild);
+                return;
+            }
+            console.log($("#ul").firstElementChild);
+        };
+        $("#btn5").onclick = function(){
+            if($("#div2")){
+                $("#box").replaceChild($("#div1"),$("#div2"));
+            }
+        };
+        $("#btn6").onclick = function(){
+            if($("#div2")){
+                var div3 = $("#div2").cloneNode(true);
+
+                $("#box").insertBefore(div3,$("hr")[0]);
+            }
+        }
+    })
+</script>
+</body>
+</html>

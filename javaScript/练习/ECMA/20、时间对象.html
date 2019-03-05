@@ -7,7 +7,7 @@
 <body>
 <div></div>
 <div></div>
-<script src="js/wjs.js"></script>
+<script src="../js/king.js"></script>
 <script>
     window.onload = function(){
         var aDiv = document.getElementsByTagName("div");
@@ -22,16 +22,18 @@
             var iSec = toDouble(d.getSeconds());
             var iDay = d.getDay();
             var iWeek = "";
+            var str = '00天00时00分00秒';
 
             var iNew = new Date(2019,0,10,14,31,0);
 
             var t = Math.floor((iNew - d)/1000); //毫秒 => 秒
-
-            if(t === 0){
+            if(t <= 0){
                 clearInterval(timer);
+            }else{
+                str = Math.floor(t/86400)+'天'+Math.floor(t%86400/3600)+'时'+Math.floor(t%86400%3600/60)+'分'+
+                    t%60 +'秒';
+
             }
-            var str = Math.floor(t/86400)+'天'+Math.floor(t%86400/3600)+'时'+Math.floor(t%86400%3600/60)+'分'+
-                t%60 +'秒';
 
             switch (iDay){
                 case 1 :
